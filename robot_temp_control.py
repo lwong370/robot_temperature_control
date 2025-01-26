@@ -26,14 +26,14 @@ class Robot():
         
         for i in range(num_fans):
             # need error checking for fan max speed
-            max_speed = check_valid_int_input(f"What is the max speed of fan {i + 1}? ")
+            max_speed = check_valid_input(f"What is the max speed of fan {i + 1}? ", int)
             self.fans.append(Fan(max_speed))
         
         self.update_subsystem_temperatures()
         
     def update_subsystem_temperatures(self):
         for i, subsystem in enumerate(self.subsystems):
-            temp = check_valid_int_input(f"What is the current temperature of subsystem {i + 1}? ")
+            temp = check_valid_input(f"What is the current temperature of subsystem {i + 1}? ", int)
             subsystem.set_temperature(temp)
             max_temp = max([subsystem.get_temperature() for subsystem in self.subsystems])
             self.__update_fan_percent_max_rpm(max_temp)
@@ -52,22 +52,26 @@ class Robot():
             fan.set_speed(fan_speed_percent * fan.max_rpm)
     
 ### Put these functions in own file###
-def check_valid_int_input(prompt):
+def check_valid_input(prompt, expected_type):
     while True:
         try:
-            user_input = int(input(prompt))
+            user_input = expected_type(input(prompt))
             return user_input
         except ValueError:
-            print(f"\nInput not valid. Please enter a number. ")
+            print(f"\nInput not valid. Please try again. ")
         except EOFError:
-            print(f"\nNo input given. Please enter a number. ")
+            print(f"\nNo input given. Please try again. ")
 #######################################
             
-num_subsystems = check_valid_int_input("How many subsystems are there? ")
-fans_present = check_valid_int_input("How many fans are there? ")
+num_subsystems = check_valid_input("How many subsystems are there? ", int)
+fans_present = check_valid_input("How many fans are there? ", int)
 robot = Robot(num_subsystems, fans_present)
-
-
+while True:
+    update_again = check_valid_input("Would you like to update the temperatures again? (y/n) ", str)
+    if update_again != "y":
+        break
+    else:
+        robot.update_subsystem_temperatures()
 
 
 # IDEAS:
