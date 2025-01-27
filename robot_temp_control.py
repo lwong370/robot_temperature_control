@@ -21,29 +21,31 @@ class Subsystem:
     
 class Robot():
     def __init__(self, num_subsystems, num_fans):
-        self.subsystems = [Subsystem(0.0)] * num_subsystems
+        self.subsystems = [Subsystem(0.0) for _ in range(num_subsystems)]
         self.fans = []
         
         for i in range(num_fans):
             # need error checking for fan max speed
-            max_speed = check_valid_input(f"What is the max speed of fan {i + 1}? ", int)
+            max_speed = check_valid_input(f"What is the max speed (RPM) of fan {i + 1}? ", int)
             self.fans.append(Fan(max_speed))
-        
-        self.update_subsystem_temperatures()
-        
+                
     def update_subsystem_temperatures(self):
         for i, subsystem in enumerate(self.subsystems):
-            temp = check_valid_input(f"What is the current temperature of subsystem {i + 1}? ", int)
+            temp = check_valid_input(f"What is the current temperature (Celsius) of subsystem {i + 1}? ", float)
             subsystem.set_temperature(temp)
             max_temp = max([subsystem.get_temperature() for subsystem in self.subsystems])
             self.__update_fan_percent_max_rpm(max_temp)
 
+    def print_fan_speeds(self):
+        for i, fan in enumerate(self.fans):
+            print(f"Fan {i + 1} running at {fan.get_speed()} RPM")
+
     def __update_fan_percent_max_rpm(self, curr_temps_max):
         fan_speed_percent = float(0)
 
-        if curr_temps_max <= 25:
+        if curr_temps_max <= 25.0:
             fan_speed_percent = 0.2
-        elif curr_temps_max > 75:
+        elif curr_temps_max > 75.0:
             fan_speed_percent = 1.0
         else:
             fan_speed_percent = 0.016 * curr_temps_max - 0.2
@@ -66,12 +68,15 @@ def check_valid_input(prompt, expected_type):
 num_subsystems = check_valid_input("How many subsystems are there? ", int)
 fans_present = check_valid_input("How many fans are there? ", int)
 robot = Robot(num_subsystems, fans_present)
+robot.update_subsystem_temperatures()
+robot.print_fan_speeds()
 while True:
     update_again = check_valid_input("Would you like to update the temperatures again? (y/n) ", str)
     if update_again != "y":
         break
     else:
         robot.update_subsystem_temperatures()
+        robot.print_fan_speeds()
 
 
 # IDEAS:
