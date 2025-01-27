@@ -1,3 +1,6 @@
+from csv_writer import write_to_csv
+from datetime import datetime
+
 class Fan:
     def __init__(self, max_fan_rpm):
         self.max_rpm = max_fan_rpm
@@ -31,7 +34,7 @@ class Robot():
                 
     def update_subsystem_temperatures(self):
         for i, subsystem in enumerate(self.subsystems):
-            temp = check_valid_input(f"What is the current temperature (Celsius) of subsystem {i + 1}? ", float)
+            temp = check_valid_input(f"What is the current temperature (C) of subsystem {i + 1}? ", float)
             subsystem.set_temperature(temp)
             max_temp = max([subsystem.get_temperature() for subsystem in self.subsystems])
             self.__update_fan_percent_max_rpm(max_temp)
@@ -39,6 +42,19 @@ class Robot():
     def print_fan_speeds(self):
         for i, fan in enumerate(self.fans):
             print(f"Fan {i + 1} running at {fan.get_speed()} RPM")
+        
+    def log_data(self, filename="./robot_data_log.csv"):
+        # Get data to log
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+        subsystem_temps = [subsystem.get_temperature() for subsystem in self.subsystems]
+        fan_speeds = [fan.get_speed() for fan in self.fans]
+
+        header = ["Timestamp"] + \
+        [f"Subsystem {i + 1} Temperature (C)" for i in range(len(self.subsystems))] + \
+        [f"Fan {i + 1} Speed (RPM)" for i in range(len(self.fans))]
+        row = [timestamp] + subsystem_temps + fan_speeds
+
+        write_to_csv(filename, header, row)
 
     def __update_fan_percent_max_rpm(self, curr_temps_max):
         fan_speed_percent = float(0)
@@ -68,8 +84,11 @@ def check_valid_input(prompt, expected_type):
 num_subsystems = check_valid_input("How many subsystems are there? ", int)
 fans_present = check_valid_input("How many fans are there? ", int)
 robot = Robot(num_subsystems, fans_present)
+
 robot.update_subsystem_temperatures()
 robot.print_fan_speeds()
+robot.log_data()
+
 while True:
     update_again = check_valid_input("Would you like to update the temperatures again? (y/n) ", str)
     if update_again != "y":
@@ -77,11 +96,14 @@ while True:
     else:
         robot.update_subsystem_temperatures()
         robot.print_fan_speeds()
+        robot.log_data()
 
 
 # IDEAS:
 # give it some inital temp, then based on current temp, then change the temp to act accordingly. 
-    
+# make unit tests
+
+
 # def update_dashboard()
 #     # landing page
 #     # tkinter for gui?
