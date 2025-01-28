@@ -36,8 +36,8 @@ class Robot():
             max_speed = check_valid_input(f"What is the max speed (RPM) of fan {i + 1}? ", int)
             self.fans.append(Fan(max_speed))
 
-    def update_subsystem_temperatures(self):
-        file_name = "temperature_input_data.csv"
+    def update_subsystem_temperatures(self, temp_input_file):
+        file_name = temp_input_file
         temp_generate = read_csv(file_name, len(self.subsystems))
         for row in temp_generate:
             for i, (subsystem, temp) in enumerate(zip(self.subsystems, row), start=1):
@@ -48,7 +48,7 @@ class Robot():
             max_temp = max(subsystem.get_temperature() for subsystem in self.subsystems)
             self.__update_fan_percent_max_rpm(max_temp)
 
-            # Optionally log or print here
+            # Print to console and log data
             self.print_fan_speeds()
             self.log_data()
             
@@ -100,18 +100,7 @@ num_subsystems = check_valid_input("How many subsystems are there? ", int)
 fans_present = check_valid_input("How many fans are there? ", int)
 robot = Robot(num_subsystems, fans_present)
 
-robot.update_subsystem_temperatures()
-robot.print_fan_speeds()
-robot.log_data()
-
-# while True:
-#     update_again = check_valid_input("Would you like to update the temperatures again? (y/n) ", str)
-#     if update_again != "y":
-#         break
-#     else:
-#         robot.update_subsystem_temperatures()
-#         robot.print_fan_speeds()
-#         robot.log_data()
+robot.update_subsystem_temperatures("temperature_input_data.csv")
 
 
 # IDEAS:
