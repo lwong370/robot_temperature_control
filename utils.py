@@ -33,7 +33,6 @@ def read_csv(filename, num_subsystems):
         with open(filename, mode='r') as file:
             csvreader = csv.reader(file)
             for row in csvreader:
-                print(row[0:num_subsystems])
                 yield row[0:num_subsystems]
     except FileNotFoundError:
         print("Error: File not found")

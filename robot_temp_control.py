@@ -4,24 +4,27 @@ import time
 
 class Fan:
     def __init__(self, max_fan_rpm):
-        self.max_rpm = max_fan_rpm
-        self.__curr_speed = 0
+        self._max_rpm = max_fan_rpm
+        self._curr_speed = 0
+    
+    def get_max_rpm(self):
+        return self._max_rpm
     
     def set_speed(self, new_speed):
-        self.__curr_speed = new_speed
+        self._curr_speed = new_speed
     
     def get_speed(self):
-        return self.__curr_speed
+        return self._curr_speed
         
 class Subsystem:
     def __init__(self, curr_temp):
-        self.__curr_temperature = curr_temp
+        self._curr_temperature = curr_temp
     
     def set_temperature(self, new_temperature):
-        self.__curr_temperature = new_temperature
+        self._curr_temperature = new_temperature
     
     def get_temperature(self):
-        return self.__curr_temperature
+        return self._curr_temperature
     
 class Robot():
     def __init__(self, num_subsystems, num_fans):
@@ -37,8 +40,9 @@ class Robot():
         file_name = "temperature_input_data.csv"
         temp_generate = read_csv(file_name, len(self.subsystems))
         for row in temp_generate:
-            for subsystem, temp in zip(self.subsystems, row):
+            for i, (subsystem, temp) in enumerate(zip(self.subsystems, row), start=1):
                 subsystem.set_temperature(float(temp))
+                print(f"Subsystem {i} Temp (C): {subsystem.get_temperature()}")
             
             # Calculate the maximum temperature and adjust fan speeds
             max_temp = max(subsystem.get_temperature() for subsystem in self.subsystems)
@@ -48,7 +52,7 @@ class Robot():
             self.print_fan_speeds()
             self.log_data()
             
-            # Wait 2 seconds before fetching the next row
+            # Wait 2 seconds before updating with new temperature
             time.sleep(4)
 
     # Old code that asks the user for temp change         
@@ -68,8 +72,8 @@ class Robot():
     def log_data(self, filename="./robot_data_log.csv"):
         # Get data to log
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
-        subsystem_temps = [subsystem.get_temperature() for subsystem in self.subsystems]
-        fan_speeds = [fan.get_speed() for fan in self.fans]
+        subsystem_temps = [float(f"{subsystem.get_temperature():.3f}") for subsystem in self.subsystems]
+        fan_speeds = [float(f"{fan.get_speed():.3f}") for fan in self.fans]
 
         header = ["Timestamp"] + \
         [f"Subsystem {i + 1} Temperature (C)" for i in range(len(self.subsystems))] + \
@@ -89,7 +93,7 @@ class Robot():
             fan_speed_percent = 0.016 * curr_temps_max - 0.2
         
         for fan in self.fans:
-            fan.set_speed(fan_speed_percent * fan.max_rpm)
+            fan.set_speed(fan_speed_percent * fan.get_max_rpm())
     
 # Run Program
 num_subsystems = check_valid_input("How many subsystems are there? ", int)
@@ -100,14 +104,14 @@ robot.update_subsystem_temperatures()
 robot.print_fan_speeds()
 robot.log_data()
 
-while True:
-    update_again = check_valid_input("Would you like to update the temperatures again? (y/n) ", str)
-    if update_again != "y":
-        break
-    else:
-        robot.update_subsystem_temperatures()
-        robot.print_fan_speeds()
-        robot.log_data()
+# while True:
+#     update_again = check_valid_input("Would you like to update the temperatures again? (y/n) ", str)
+#     if update_again != "y":
+#         break
+#     else:
+#         robot.update_subsystem_temperatures()
+#         robot.print_fan_speeds()
+#         robot.log_data()
 
 
 # IDEAS:
