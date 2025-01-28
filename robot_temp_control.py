@@ -1,5 +1,6 @@
-from csv_writer import write_to_csv
+from utils import write_to_csv, check_valid_input, read_csv
 from datetime import datetime
+import time
 
 class Fan:
     def __init__(self, max_fan_rpm):
@@ -31,17 +32,38 @@ class Robot():
             # need error checking for fan max speed
             max_speed = check_valid_input(f"What is the max speed (RPM) of fan {i + 1}? ", int)
             self.fans.append(Fan(max_speed))
-                
+
     def update_subsystem_temperatures(self):
-        for i, subsystem in enumerate(self.subsystems):
-            temp = check_valid_input(f"What is the current temperature (C) of subsystem {i + 1}? ", float)
-            subsystem.set_temperature(temp)
-            max_temp = max([subsystem.get_temperature() for subsystem in self.subsystems])
+        file_name = "temperature_input_data.csv"
+        temp_generate = read_csv(file_name, len(self.subsystems))
+        for row in temp_generate:
+            for subsystem, temp in zip(self.subsystems, row):
+                subsystem.set_temperature(float(temp))
+            
+            # Calculate the maximum temperature and adjust fan speeds
+            max_temp = max(subsystem.get_temperature() for subsystem in self.subsystems)
             self.__update_fan_percent_max_rpm(max_temp)
+
+            # Optionally log or print here
+            self.print_fan_speeds()
+            self.log_data()
+            
+            # Wait 2 seconds before fetching the next row
+            time.sleep(4)
+
+    # Old code that asks the user for temp change         
+    # def update_subsystem_temperatures(self):
+        # for i, subsystem in enumerate(self.subsystems):
+        #     # temp = check_valid_input(f"What is the current temperature (C) of subsystem {i + 1}? ", float)
+
+            
+        #     subsystem.set_temperature(temp)
+        # max_temp = max([subsystem.get_temperature() for subsystem in self.subsystems])
+        # self.__update_fan_percent_max_rpm(max_temp)
 
     def print_fan_speeds(self):
         for i, fan in enumerate(self.fans):
-            print(f"Fan {i + 1} running at {fan.get_speed()} RPM")
+            print(f"Fan {i + 1} running at {fan.get_speed():.3f} RPM")
         
     def log_data(self, filename="./robot_data_log.csv"):
         # Get data to log
@@ -69,18 +91,7 @@ class Robot():
         for fan in self.fans:
             fan.set_speed(fan_speed_percent * fan.max_rpm)
     
-### Put these functions in own file###
-def check_valid_input(prompt, expected_type):
-    while True:
-        try:
-            user_input = expected_type(input(prompt))
-            return user_input
-        except ValueError:
-            print(f"\nInput not valid. Please try again. ")
-        except EOFError:
-            print(f"\nNo input given. Please try again. ")
-#######################################
-            
+# Run Program
 num_subsystems = check_valid_input("How many subsystems are there? ", int)
 fans_present = check_valid_input("How many fans are there? ", int)
 robot = Robot(num_subsystems, fans_present)
