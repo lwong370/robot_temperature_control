@@ -31,6 +31,7 @@ class Robot():
     def __init__(self, num_subsystems, num_fans):
         self.subsystems = [Subsystem(0.0) for _ in range(num_subsystems)]
         self.fans = []
+        self.logging_file = "./csv_files/robot_data_log.csv"
         
         for i in range(num_fans):
             max_speed = check_valid_input(f"What is the max speed (RPM) of fan {i + 1}? ", float)
@@ -59,7 +60,7 @@ class Robot():
         for i, fan in enumerate(self.fans):
             print(f"Fan {i + 1} running at {fan.get_speed():.3f} RPM")
         
-    def log_data(self, filename="./csv_files/robot_data_log.csv"):
+    def log_data(self):
         # Get data to log
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
         subsystem_temps = [float(f"{subsystem.get_temperature():.3f}") for subsystem in self.subsystems]
@@ -70,7 +71,7 @@ class Robot():
         [f"Fan {i + 1} Speed (RPM)" for i in range(len(self.fans))]
         row = [timestamp] + subsystem_temps + fan_speeds
 
-        write_to_csv(filename, header, row)
+        write_to_csv(self.logging_file, header, row)
 
     def __update_fan_percent_max_rpm(self, curr_temps_max):
         fan_speed_percent = float(0)

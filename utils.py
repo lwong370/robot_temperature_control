@@ -12,7 +12,6 @@ def check_valid_input(prompt, expected_type):
         except EOFError:
             print(f"\nNo input given. Please try again. ")
 
-
 def write_to_csv(filename, headers, data):
     # Check if the file already exists
     file_exists = exists(filename)
@@ -27,7 +26,6 @@ def write_to_csv(filename, headers, data):
         # Write the data row
         writer.writerow(data)
     
-
 def read_csv(filename, num_subsystems):
     try:
         with open(filename, mode='r') as file:

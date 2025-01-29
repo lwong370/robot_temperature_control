@@ -6,7 +6,7 @@ from robot_components import Fan, Subsystem, Robot
 class TestRobot(unittest.TestCase):
     def setUp(self):
         # Patch the check_valid_input directly
-        patcher = patch("robot_temp_control.check_valid_input", side_effect=[523.0, 310])
+        patcher = patch("robot_components.check_valid_input", side_effect=[523.0, 310])
         self.mock_check_valid_input = patcher.start()  # Start patching
         self.addCleanup(patcher.stop)  # Ensure it gets stopped after the test
 
