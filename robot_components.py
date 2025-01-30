@@ -28,14 +28,19 @@ class Subsystem:
         return self._curr_temperature
     
 class Robot():
-    def __init__(self, num_subsystems, num_fans):
+    def __init__(self, num_subsystems, num_fans, max_rpms):
         self.subsystems = [Subsystem(0.0) for _ in range(num_subsystems)]
-        self.fans = []
-        self.logging_file = "./csv_files/robot_data_log.csv"
+        self.fans = max_rpms
+        self.logging_file = f"./csv_files/robot_data_log_{num_subsystems}_subsystems_{num_fans}_fans.csv"
+
+        # for i in num_fans:
+        #     max_speed = check_valid_input(f"What is the max speed (RPM) of fan {i + 1}? ", float)
+        #     self.fans.append(Fan(max_speed))
         
-        for i in range(num_fans):
-            max_speed = check_valid_input(f"What is the max speed (RPM) of fan {i + 1}? ", float)
-            self.fans.append(Fan(max_speed))
+    # def set_fan_max_rpms(self, rpm_inputs):
+    #     for value in rpm_inputs:
+    #         # max_speed = check_valid_input(f"What is the max speed (RPM) of fan {i + 1}? ", float)
+    #         self.fans = [Fan(float(value)) for value in rpm_inputs]
 
     def update_subsystem_temperatures(self, temp_input_file):
         file_name = temp_input_file
@@ -51,6 +56,7 @@ class Robot():
 
             # Print to console and log data
             self.print_fan_speeds()
+            print("------------------------------")
             self.log_data()
             
             # Wait 2 seconds before updating with new temperature
@@ -85,7 +91,15 @@ class Robot():
         
         for fan in self.fans:
             max_rpm = fan.get_max_rpm()
-            
+
             # Set the speed, rounded to three decimal places
             fan.set_speed(fan_speed_percent * math.floor(max_rpm * 1000) / 1000.0)
-        
+            
+        # for fan in self.fans:
+        #     max_rpm = fan.get_max_rpm()
+        #     if not isinstance(max_rpm, (int, float)):
+        #         raise TypeError(f"Expected numeric max RPM but got {type(max_rpm)} with value {max_rpm}")
+            
+        #     fan.set_speed(round(fan_speed_percent * max_rpm, 3))
+
+ 
