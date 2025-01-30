@@ -94,12 +94,5 @@ class Robot():
 
             # Set the speed, rounded to three decimal places
             fan.set_speed(fan_speed_percent * math.floor(max_rpm * 1000) / 1000.0)
-            
-        # for fan in self.fans:
-        #     max_rpm = fan.get_max_rpm()
-        #     if not isinstance(max_rpm, (int, float)):
-        #         raise TypeError(f"Expected numeric max RPM but got {type(max_rpm)} with value {max_rpm}")
-            
-        #     fan.set_speed(round(fan_speed_percent * max_rpm, 3))
 
  

@@ -6,6 +6,11 @@ class RobotUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Robot Cooling System")
+        self.robot = None        
+        self.fans = []
+        self.fan_labels = []
+        self.subsystem_labels = []
+        self.fan_rpm_entries = []
         
         # User inputs
         tk.Label(root, text="Number of Subsystems:").grid(row=0, column=0)
@@ -18,11 +23,6 @@ class RobotUI:
         
         self.configure_button = tk.Button(root, text="Configure", command=self.configure_robot)
         self.configure_button.grid(row=2, columnspan=2)
-        
-        self.fans = []
-        self.robot = None
-        self.fan_labels = []
-        self.subsystem_labels = []
 
     def configure_robot(self):
         try:
@@ -34,10 +34,7 @@ class RobotUI:
         
         self.subsystem_entry.config(state='disabled')
         self.fan_entry.config(state='disabled')
-        self.configure_button.grid_remove()
-        
-        # Store entry widgets in a list
-        self.fan_rpm_entries = []  
+        self.configure_button.grid_remove()         
 
         for i in range(num_fans):
             tk.Label(self.root, text=f"Max RPM for Fan {i + 1}:").grid(row=3 + i, column=0)
@@ -50,8 +47,6 @@ class RobotUI:
         self.submit_button.grid(row=3 + num_fans, column=1)
 
     def process_fan_rpms(self):
-        self.fans = []
-
         for entry in self.fan_rpm_entries:
             try:
                 rpm_value = float(entry.get())  # Now get user input
@@ -76,28 +71,28 @@ class RobotUI:
         # self.display_simulation()
         # self.update_simulation()
     
-    def display_simulation(self):
-        for widget in self.subsystem_labels + self.fan_labels:
-            widget.destroy()
+    # def display_simulation(self):
+    #     for widget in self.subsystem_labels + self.fan_labels:
+    #         widget.destroy()
         
-        self.subsystem_labels = [tk.Label(self.root, text=f"Subsystem {i + 1}: 0 C") for i in range(len(self.robot.subsystems))]
-        for i, label in enumerate(self.subsystem_labels):
-            label.grid(row=4 + i, column=0)
+    #     self.subsystem_labels = [tk.Label(self.root, text=f"Subsystem {i + 1}: 0 C") for i in range(len(self.robot.subsystems))]
+    #     for i, label in enumerate(self.subsystem_labels):
+    #         label.grid(row=4 + i, column=0)
         
-        self.fan_labels = [tk.Label(self.root, text=f"Fan {i + 1}: 0 RPM") for i in range(len(self.robot.fans))]
-        for i, label in enumerate(self.fan_labels):
-            label.grid(row=4 + len(self.robot.subsystems) + i, column=0)
+    #     self.fan_labels = [tk.Label(self.root, text=f"Fan {i + 1}: 0 RPM") for i in range(len(self.robot.fans))]
+    #     for i, label in enumerate(self.fan_labels):
+    #         label.grid(row=4 + len(self.robot.subsystems) + i, column=0)
     
-    def update_simulation(self):
-        self.robot.update_subsystem_temperatures("./csv_files/temperature_input_data.csv")
+    # def update_simulation(self):
+    #     self.robot.update_subsystem_temperatures("./csv_files/temperature_input_data.csv")
         
-        for i, subsystem in enumerate(self.robot.subsystems):
-            self.subsystem_labels[i].config(text=f"Subsystem {i + 1}: {subsystem.get_temperature():.1f} C")
+    #     for i, subsystem in enumerate(self.robot.subsystems):
+    #         self.subsystem_labels[i].config(text=f"Subsystem {i + 1}: {subsystem.get_temperature():.1f} C")
         
-        for i, fan in enumerate(self.robot.fans):
-            self.fan_labels[i].config(text=f"Fan {i + 1}: {fan.get_speed():.1f} RPM")
+    #     for i, fan in enumerate(self.robot.fans):
+    #         self.fan_labels[i].config(text=f"Fan {i + 1}: {fan.get_speed():.1f} RPM")
         
-        self.root.after(4000, self.update_simulation)  # Refresh every 4 sec
+    #     self.root.after(4000, self.update_simulation)  # Refresh every 4 sec
         
 if __name__ == "__main__":
     root = tk.Tk()
