@@ -32,6 +32,25 @@ class TestRobot(unittest.TestCase):
         self.assertEqual(self.robot.fans[1].get_speed(), 254)
         self.assertEqual(self.robot.fans[2].get_speed(), 207.30) 
 
+    def test_invalid_user_inputs(self):
+        invalid_input_counts = [-3, 0, "three", None]
+        invalid_fans = [Fan(-10), Fan("three"), Fan("slow")]
+
+        for subsystems in invalid_input_counts:
+            with self.subTest(subsystems=subsystems):
+                with self.assertRaises(ValueError):
+                    Robot(num_subsystems=subsystems, num_fans=3, fans=[Fan(300), Fan(200)])
+
+        for fans_count in invalid_input_counts:
+            with self.subTest(fans_count=fans_count):
+                with self.assertRaises(ValueError):
+                    Robot(num_subsystems=2, num_fans=fans_count, fans=[Fan(300), Fan(200)])
+        
+        for fans in invalid_fans:
+            with self.subTest(fans=fans):
+                with self.assertRaises(ValueError):
+                    Robot(num_subsystems=2, num_fans=len(invalid_fans), fans=invalid_fans)
+
 if __name__ == "__main__":
     unittest.main()
 

@@ -29,9 +29,24 @@ class Subsystem:
     
 class Robot():
     def __init__(self, num_subsystems, num_fans, fans):
+        self.logging_file = f"./csv_files/robot_data_log_{num_subsystems}_subsystems_{num_fans}_fans.csv"
+        # Validate num_subsystems
+        if not isinstance(num_subsystems, int) or num_subsystems <= 0:
+            raise ValueError("Number of subsystems invalid.")
+
+        # Validate num_fans
+        if not isinstance(num_fans, int) or num_fans <= 0:
+            raise ValueError("Number of fans invalid.")
+
+        for fan in fans:
+            if not isinstance(fan, Fan) or not isinstance(fan.get_max_rpm(), (int, float)) or fan.get_max_rpm() <= 0:
+                raise ValueError("Fans must have a positive max RPM.")
+
+        # Assign values after validation
+        self.num_subsystems = num_subsystems
+        self.num_fans = num_fans
         self.subsystems = [Subsystem(0.0) for _ in range(num_subsystems)]
         self.fans = fans
-        self.logging_file = f"./csv_files/robot_data_log_{num_subsystems}_subsystems_{num_fans}_fans.csv"
 
     def update_subsystem_temperatures(self):
         # Generate random temperatures for each subsystem
@@ -44,7 +59,7 @@ class Robot():
         max_temp = max(subsystem.get_temperature() for subsystem in self.subsystems)
         self.__update_fan_percent_max_rpm(max_temp)
 
-        # Print and log data
+        # Print and log data to console
         self.print_fan_speeds()
         print("------------------------------")
         self.log_data()
