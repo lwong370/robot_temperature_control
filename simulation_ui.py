@@ -2,32 +2,41 @@ import tkinter as tk
 from tkinter import messagebox
 from robot_components import Robot, Fan, Subsystem
 
-class RobotUI:
+class SimulationUI:
     def __init__(self, root):
         self.root = root
-        self.root.title("Robot Cooling System")
-        self.robot = None        
+        self.root.title("Robot Temperature Control System")
+        
+        # Robot Attributes
+        self.robot = None     
+        self.num_subsystems = 0   
+        self.num_fans = 0
+        
+        # To store UI elements 
         self.fans = []
         self.fan_labels = []
         self.subsystem_labels = []
         self.fan_rpm_entries = []
         
-        # User inputs
-        tk.Label(root, text="Number of Subsystems:").grid(row=0, column=0)
-        self.subsystem_entry = tk.Entry(root)
+        self.init_ui()
+
+    def init_ui(self):
+        # Get inputs from user
+        tk.Label(self.root, text="Number of Subsystems:").grid(row=0, column=0)
+        self.subsystem_entry = tk.Entry(self.root)
         self.subsystem_entry.grid(row=0, column=1)
         
-        tk.Label(root, text="Number of Fans:").grid(row=1, column=0)
-        self.fan_entry = tk.Entry(root)
+        tk.Label(self.root, text="Number of Fans:").grid(row=1, column=0)
+        self.fan_entry = tk.Entry(self.root)
         self.fan_entry.grid(row=1, column=1)
         
-        self.configure_button = tk.Button(root, text="Configure", command=self.configure_robot)
+        self.configure_button = tk.Button(self.root, text="Configure", command=self.configure_robot)
         self.configure_button.grid(row=2, columnspan=2)
 
     def configure_robot(self):
         try:
-            num_subsystems = int(self.subsystem_entry.get())
-            num_fans = int(self.fan_entry.get())
+            self.num_subsystems = int(self.subsystem_entry.get())
+            self.num_fans = int(self.fan_entry.get())
         except ValueError:
             messagebox.showerror("Input Error", "Please enter valid numbers.")
             return
@@ -36,7 +45,7 @@ class RobotUI:
         self.fan_entry.config(state='disabled')
         self.configure_button.grid_remove()         
 
-        for i in range(num_fans):
+        for i in range(self.num_fans):
             tk.Label(self.root, text=f"Max RPM for Fan {i + 1}:").grid(row=3 + i, column=0)
             self.fan_rpm_entry = tk.Entry(self.root)
             self.fan_rpm_entry.grid(row=3 + i, column=1)
@@ -44,12 +53,12 @@ class RobotUI:
 
         # Button to process the entered RPM values
         self.submit_button = tk.Button(self.root, text="Submit Max RPMs", command=self.process_fan_rpms)
-        self.submit_button.grid(row=3 + num_fans, column=1)
+        self.submit_button.grid(row=3 + self.num_fans, column=1)
 
     def process_fan_rpms(self):
         for entry in self.fan_rpm_entries:
             try:
-                rpm_value = float(entry.get())  # Now get user input
+                rpm_value = float(entry.get())  
                 self.fans.append(Fan(rpm_value))
                 entry.config(state="disabled")
             except ValueError:
@@ -57,42 +66,21 @@ class RobotUI:
                 return
     
         # Create robot with correct fan values
-        num_subsystems = int(self.subsystem_entry.get())
-        num_fans = len(self.fans)
-        self.robot = Robot(num_subsystems, num_fans, self.fans)
+        self.robot = Robot(self.num_subsystems, self.num_fans, self.fans)
 
         # Start Simulation Button
         self.start_button = tk.Button(self.root, text="Start Simulation", command=self.start_simulation)
-        self.start_button.grid(row=4 + num_fans, columnspan=2)
+        self.start_button.grid(row=4 + self.num_fans, columnspan=2)
     
     def start_simulation(self):
-        # self.robot.update_subsystem_temperatures("./csv_files/temperature_input_data.csv")
-
         self.submit_button.grid_remove()
         self.start_button.grid_remove()
         self.display_simulation()
-        
-        # Schedule the function to run again in 2000 milliseconds (2 seconds)
-        self.root.after(2000, self.update_simulation())
-
-    
-    # def display_simulation(self):
-    #     # for widget in self.subsystem_labels + self.fan_labels:
-    #     #     widget.destroy()
-        
-    #     self.subsystem_labels = [tk.Label(self.root, text=f"Subsystem {i + 1}: 0 C") for i in range(len(self.robot.subsystems[i].get_temperature()))]
-    #     for i, label in enumerate(self.subsystem_labels):
-    #         label.grid(row=4 + i, column=0)
-        
-    #     self.fan_labels = [tk.Label(self.root, text=f"Fan {i + 1}: 0 RPM") for i in range(len(self.robot.fans))]
-    #     for i, label in enumerate(self.fan_labels):
-    #         label.grid(row=4 + len(self.robot.subsystems) + i, column=0)
+        self.update_simulation()
 
     def display_simulation(self):  
         # Create and display subsystem temperature labels
-        self.subsystem_labels = []
         start_row = 4 + len(self.fan_rpm_entries)
-        
         for i in range(len(self.robot.subsystems)):
             label = tk.Label(self.root, text=f"Subsystem {i + 1} °C")
             label.grid(row=start_row + i, column=0, padx=5, pady=2, sticky="w")
@@ -100,27 +88,26 @@ class RobotUI:
 
         # Create and display fan speed labels
         fan_start_row = start_row + len(self.robot.subsystems)
-        self.fan_labels = []
         for i in range(len(self.robot.fans)):
             label = tk.Label(self.root, text=f"Fan {i + 1} RPM")
             label.grid(row=fan_start_row + i, column=0, padx=5, pady=2, sticky="w")
             self.fan_labels.append(label)
 
     def update_simulation(self):
-        self.robot.update_subsystem_temperatures("./csv_files/temperature_input_data.csv")
+        self.robot.update_subsystem_temperatures()
 
         # Update subsystem temperature labels
         for i, subsystem in enumerate(self.robot.subsystems):
-            self.subsystem_labels[i].config(text=f"Subsystem {i + 1}: {subsystem.get_temperature():.1f} °C")
+            self.subsystem_labels[i].config(text=f"Subsystem {i + 1}: {subsystem.get_temperature():.3f} °C")
 
         # Update fan speed labels
         for i, fan in enumerate(self.robot.fans):
-            self.fan_labels[i].config(text=f"Fan {i + 1}: {fan.get_speed():.1f} RPM")
+            self.fan_labels[i].config(text=f"Fan {i + 1}: {fan.get_speed():.3f} RPM")
 
         # Schedule next update in 2000ms (2 seconds)
         self.root.after(2000, self.update_simulation)
         
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = RobotUI(root)
-    root.mainloop()
+# if __name__ == "__main__":
+#     root = tk.Tk()
+#     app = SimulationUI(root)
+#     root.mainloop()

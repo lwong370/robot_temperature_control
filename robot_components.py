@@ -1,6 +1,6 @@
 from utils import write_to_csv, check_valid_input, read_csv
 from datetime import datetime
-import time
+import random
 import math
 
 class Fan:
@@ -33,61 +33,21 @@ class Robot():
         self.fans = max_rpms
         self.logging_file = f"./csv_files/robot_data_log_{num_subsystems}_subsystems_{num_fans}_fans.csv"
 
-        # for i in num_fans:
-        #     max_speed = check_valid_input(f"What is the max speed (RPM) of fan {i + 1}? ", float)
-        #     self.fans.append(Fan(max_speed))
-        
-    # def set_fan_max_rpms(self, rpm_inputs):
-    #     for value in rpm_inputs:
-    #         # max_speed = check_valid_input(f"What is the max speed (RPM) of fan {i + 1}? ", float)
-    #         self.fans = [Fan(float(value)) for value in rpm_inputs]
+    def update_subsystem_temperatures(self):
+        # Generate random temperatures for each subsystem
+        for i, subsystem in enumerate(self.subsystems, start=1):
+            temp = round(random.uniform(-20.000, 85.000), 3)  # Generate random temp with 3 decimals
+            subsystem.set_temperature(temp)
+            print(f"Subsystem {i} Temp (C): {subsystem.get_temperature()}")
 
-    # def update_subsystem_temperatures(self, temp_input_file):
-    #     file_name = temp_input_file
-    #     temp_generate = read_csv(file_name, len(self.subsystems))
-    #     for row in temp_generate:
-    #         for i, (subsystem, temp) in enumerate(zip(self.subsystems, row), start=1):
-    #             subsystem.set_temperature(float(temp))
-    #             print(f"Subsystem {i} Temp (C): {subsystem.get_temperature()}")
-            
-    #         # Calculate the maximum temperature and adjust fan speeds
-    #         max_temp = max(subsystem.get_temperature() for subsystem in self.subsystems)
-    #         self.__update_fan_percent_max_rpm(max_temp)
+        # Adjust fan speeds based on new max temperature
+        max_temp = max(subsystem.get_temperature() for subsystem in self.subsystems)
+        self.__update_fan_percent_max_rpm(max_temp)
 
-    #         # Print to console and log data
-    #         self.print_fan_speeds()
-    #         print("------------------------------")
-    #         self.log_data()
-            
-    #         # Wait 2 seconds before updating with new temperature
-    #         time.sleep(4)
-
-    def update_subsystem_temperatures(self, temp_input_file):
-        file_name = temp_input_file
-        temp_generate = read_csv(file_name, len(self.subsystems))  # Generator function
-
-        # Store the generator as an attribute so it retains state across calls
-        if not hasattr(self, 'temp_generator'):
-            self.temp_generator = temp_generate  # Initialize on first call
-
-        try:
-            row = next(self.temp_generator)  # Get next temperature data
-            for i, (subsystem, temp) in enumerate(zip(self.subsystems, row), start=1):
-                subsystem.set_temperature(float(temp))
-                print(f"Subsystem {i} Temp (C): {subsystem.get_temperature()}")
-
-            # Adjust fan speeds based on new max temperature
-            max_temp = max(subsystem.get_temperature() for subsystem in self.subsystems)
-            self.__update_fan_percent_max_rpm(max_temp)
-
-            # Print and log data
-            self.print_fan_speeds()
-            print("------------------------------")
-            self.log_data()
-
-        except StopIteration:
-            print("End of temperature data.")
-
+        # Print and log data
+        self.print_fan_speeds()
+        print("------------------------------")
+        self.log_data()
 
     def print_fan_speeds(self):
         for i, fan in enumerate(self.fans):
