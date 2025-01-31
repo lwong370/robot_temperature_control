@@ -1,4 +1,4 @@
-from utils import write_to_csv, check_valid_input, read_csv
+from utils import write_to_csv
 from datetime import datetime
 import random
 import math
@@ -28,9 +28,9 @@ class Subsystem:
         return self._curr_temperature
     
 class Robot():
-    def __init__(self, num_subsystems, num_fans, max_rpms):
+    def __init__(self, num_subsystems, num_fans, fans):
         self.subsystems = [Subsystem(0.0) for _ in range(num_subsystems)]
-        self.fans = max_rpms
+        self.fans = fans
         self.logging_file = f"./csv_files/robot_data_log_{num_subsystems}_subsystems_{num_fans}_fans.csv"
 
     def update_subsystem_temperatures(self):
@@ -80,6 +80,6 @@ class Robot():
             max_rpm = fan.get_max_rpm()
 
             # Set the speed, rounded to three decimal places
-            fan.set_speed(fan_speed_percent * math.floor(max_rpm * 1000) / 1000.0)
+            fan.set_speed(round(fan_speed_percent * math.floor(max_rpm * 1000) / 1000.0, 3))
 
  
