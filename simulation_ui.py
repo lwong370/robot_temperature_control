@@ -106,6 +106,10 @@ class SimulationUI:
             label.grid(row=fan_start_row + i, column=0, padx=5, pady=2, sticky="w")
             self.fan_labels.append(label)
 
+        # Add End Simulation Button
+        self.end_button = tk.Button(self.root, text="End Simulation", command=self.end_simulation)
+        self.end_button.grid(row=fan_start_row + self.num_fans, column=1)
+
     def update_simulation(self):
         self.robot.update_subsystem_temperatures()
 
@@ -119,6 +123,10 @@ class SimulationUI:
 
         # Schedule next update in 2000ms (2 seconds)
         self.root.after(2000, self.update_simulation)
+
+    def end_simulation(self):
+        self.root.quit()
+        self.root.destroy()
         
 # if __name__ == "__main__":
 #     root = tk.Tk()

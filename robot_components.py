@@ -38,8 +38,8 @@ class Robot():
             raise ValueError("Number of fans invalid.")
 
         for fan in fans:
-            if not isinstance(fan, Fan) or not isinstance(fan.get_max_rpm(), (int, float)) or fan.get_max_rpm() <= 0:
-                raise ValueError("Fans must have a positive max RPM.")
+            if not isinstance(fan, Fan) or not isinstance(fan.get_max_rpm(), (int, float)) or fan.get_max_rpm() < 0:
+                raise ValueError("Invalid value for fan max RPM.")
 
         # Assign values after validating inputs
         self.num_subsystems = num_subsystems
