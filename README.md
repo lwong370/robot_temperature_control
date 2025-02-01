@@ -38,7 +38,7 @@ To run unit tests:
 - **Subsystem**: Represents individual subsystems, each with its current temperature data.
 
 ### Simulation in Tkinter
-Within the [**simulation_ui.py**](simulation.py), observe these functions and their objectives:
+Within the [**simulation_ui.py**](simulation_ui.py), observe these functions and their objectives:
 - `configure_robot()` → Captures and validates user input for number of subsystems and fans
 - `process_fan_rpms()` → Validates fan max RPM inputs, initializes fans
 - `start_simulation()` → Sets up simulation
@@ -55,4 +55,5 @@ These tests help ensure that the program handles unexpected inputs and performs 
 
 ## Future Improvements
 A potential enhancement would be to introduce controlled and realistic temperature values, rather than relying on randomly generated floating-point numbers across a specified range. This would involve simulating more accurate temperature behavior based on real-world scenarios, such as environmental factors or the robot's internal processes. For instance, temperatures could be dynamically adjusted based on system performance or external conditions, providing a more realistic and meaningful representation of how the robot's subsystems operate.
-Overall, I really enjoyed working on this project and it was honestly a really good learning experience! :D
+
+Overall, I really enjoyed working on this project and it was a good learning experience! :D
