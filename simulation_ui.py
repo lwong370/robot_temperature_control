@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-from robot_components import Robot, Fan, Subsystem
+from robot_components import Robot, Fan
 from utils import is_invalid_number
 
 class SimulationUI:

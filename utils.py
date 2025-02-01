@@ -2,16 +2,6 @@ import csv
 import time
 from os.path import exists
 
-def check_valid_input(prompt, expected_type):
-    while True:
-        try:
-            user_input = expected_type(input(prompt))
-            return user_input
-        except ValueError:
-            print(f"\nInput not valid. Please try again. ")
-        except EOFError:
-            print(f"\nNo input given. Please try again. ")
-
 def is_invalid_number(value, invalid_include_zero=False):
     try:
         float_value = float(value)

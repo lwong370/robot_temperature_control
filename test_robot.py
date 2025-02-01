@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from utils import write_to_csv, check_valid_input
+from utils import write_to_csv
 from robot_components import Fan, Subsystem, Robot
 
 class TestRobot(unittest.TestCase):
