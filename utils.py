@@ -2,10 +2,10 @@ import csv
 import time
 from os.path import exists
 
-def is_invalid_number(value, invalid_include_zero=False):
+def is_negative_float(value):
     try:
         float_value = float(value)
-        return float_value <= 0 if invalid_include_zero else float_value < 0
+        return float_value < 0 
     except ValueError:
         return True
 

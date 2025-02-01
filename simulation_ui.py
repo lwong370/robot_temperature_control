@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from robot_components import Robot, Fan
-from utils import is_invalid_number
+from utils import is_negative_float
 
 class SimulationUI:
     def __init__(self, root):
@@ -65,7 +65,7 @@ class SimulationUI:
         # Checks if fan max RPMs are valid
         invalid_found = False
         for entry in self.fan_rpm_entries:
-            if is_invalid_number(entry.get()):
+            if is_negative_float(entry.get()):
                 invalid_found = True
                 break    
         if invalid_found:

@@ -6,7 +6,7 @@ This is a little programming project that develops a robot with multiple subsyst
 
 Before going into the development phase, I identified key goals:
 - Implement a clean and well-structured Object-Oriented Programming (OOP) design.
-- Show that the robot accurately works for ranges of temperatures from -20°C to 85°C, which is a realistic range of temperatures for electronic systems. 
+- Show that the robot accurately works for ranges of temperatures from -20°C to 85°C [TODO: research more realisitic values]. 
 - Design an intuitive and user-friendly interface for everyday users to easily run the application.
 - Write tests to make the system more robust and reliable. 
 
@@ -33,7 +33,7 @@ To run unit tests:
 
 ## Code Information
 ### Classes in [**robot_components.py**](robot_components.py)
-- **Robot**: Manages the overall system, including subsystems and fans.
+- **Robot**: Manages the overall system, including subsystems and fans. This class validates the user input before using them to create Fan and Subsystem objects.
 - **Fan**: Represents the cooling fans, managing their state and RPM adjustments.
 - **Subsystem**: Represents individual subsystems, each with its current temperature data.
 
@@ -44,6 +44,8 @@ Within the [**simulation_ui.py**](simulation_ui.py), observe these functions and
 - `start_simulation()` → Sets up simulation
 - `display_simulation()` → Creates UI subsystem-state and fan-state reporting labels
 - `update_simulation()` → Loops the updates
+
+The main purpose of checking invalid inputs here is to have the UI Tkinter simulation react accordingly. For instance, when a user types in `-2` as input input to `Number of Subsystems`, a warning pop-up will notify them that the input is invalid.
 
 ### Testing
 In [**test_robot.py**](test_robot.py), I wrote unit tests using Python's built-in `unittest` framework to validate the overall system. These tests include edge cases such as:
