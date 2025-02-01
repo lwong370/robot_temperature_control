@@ -1,45 +1,54 @@
 # Robot Temperature Control
 
 ## Overview
-### Motivation
-Little programming exercise that develops a robot with multiple subsystems and cooling fans that implements object oriented programming in python. I tried created this with the following thought process:
-- First and foremost, according to the prompt, we want to show that the robot accurately works for ranges of temperatures from -20 to 85 degree Celcius. Thus, this robot will not emulate a real-working system where the temperature is more stable, and will be fed random float values across this range. 
-- real-world application and importance, maybe connect it back to the role?
+### Introduction
+This is a little programming project that develops a robot with multiple subsystems and cooling fans. The robot dynamically adjusts the speed of its cooling fans based on the highest detected temperature. The system is designed using Object-Oriented Programming (OOP) in Python to ensure scalability and maintainability.
 
-### User Assumptions
+Before going into the development phase, I identified key goals:
+- Implement a clean and well-structured Object-Oriented Programming (OOP) design.
+- Show that the robot accurately works for ranges of temperatures from -20°C to 85°C, which is a realistic range of temperatures for electronic systems. 
+- Design an intuitive and user-friendly interface for everyday users to easily run the application.
+- Write tests to make the system more robust and reliable. 
+
+### System Behavior & Expectations
 - Temperatures and fan speeds are reported up to the third decimal. 
 - The subsystem temperatures will be updated every 2 seconds.
-- As mentioned in motivations, our goal is to see how the fans of the robot reacts across a broad range of subsystem temperatures. Thus, the user can expect the subsystem temperatures to be random values between -20 to 85 degrees Celcius. The response can be viewed accordingly in the Fan RPMs that are updated every 2 seconds. 
+- As mentioned in motivations, our goal is to see how the fans of the robot reacts across a broad range of subsystem temperatures. Thus, the user can expect the subsystem temperatures to be random values between 
+-20°C and 85°C. The response can be viewed accordingly in the Fan RPMs that are updated every 2 seconds.
+- System logs data in a csv file created after each program run in the csv_files directory. I decided to use a CSV file to log the system state, which includes: Timestamp, temperatures of all subsystems, and RPMs of all fans at that timestamp. I decided to use a CSV file because of its human-readable format, and CSV's history of being easily integrated with data analysis tools and libraries. The use of CSV files was chosen due to their human-readable format and their ease of integration with data analysis tools. In the context of robotics, this approach is particularly useful for analyzing performance over time and evaluating how the system behaves under varying conditions.
+
+### Built With
+- [Tkinter](https://docs.python.org/3/library/tkinter.html)
 
 ### How to Use
-- Run main.py
+To run the main program:
+- Run `main.py`
 - Tkinter UI will pop up asking for integers to represent the number of subsystems and fans to include in the system. Click "Configure" button.
 - Set the max RPM values of each fan. Once finished, click on the "Start Simulation" button.
 - Observe how the fan speeds change as the temperature of each subsystem is automatically updated with a random float value between -20 and 85 degrees Celcius.
 
-### Libraries Used
-- Tkinter
+To run unit tests:
+- Run `python test_robot.py`
+- In console, observe test results.
 
 ## Code Information
 ### Simulation in Tkinter
-Within the simulation_ui.py, observe these functions and their objectives:
-- `configure_robot()` → Captures user input
-- `process_fan_rpms()` → Validates input, initializes fans
+Within the **simulation_ui.py**, observe these functions and their objectives:
+- `configure_robot()` → Captures and validates user input for number of subsystems and fans
+- `process_fan_rpms()` → Validates fan max RPM inputs, initializes fans
 - `start_simulation()` → Sets up simulation
-- `display_simulation()` → Creates UI elements
+- `display_simulation()` → Creates UI subsystem-state and fan-state reporting labels
 - `update_simulation()` → Loops the updates
 
 ### Testing
-Within test_robot.py, I wrote some unit tests to test the overall system. These include edge cases such as:
+In **test_robot.py**, I wrote unit tests using Python's built-in `unittest` framework to validate the overall system. These tests include edge cases such as:
 - User inputs with negative numbers → invalid input
-- User inputs with special characters → invalid input
+- User inputs with letters or special characters → invalid input
+- User input of 0 for number of fans and numer of subsystems → invalid input
 
 ## TODO IDEAS:
-- give it some inital temp, then based on current temp, then change the temp to act accordingly. 
 
 ## TODO: def update_dashboard()
-- negative-proof number inputs of fan and subsystem amounts
 - explain reason why I used csv files to store data
-- gui is for making this application easier to use. the goal is to make this more visual
 
 ## Future Improvements
