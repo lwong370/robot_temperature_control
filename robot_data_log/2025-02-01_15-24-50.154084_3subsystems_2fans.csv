@@ -1,0 +1,4 @@
+Timestamp,Subsystem 1 Temperature (C),Subsystem 2 Temperature (C),Subsystem 3 Temperature (C),Fan 1 Speed (RPM),Fan 2 Speed (RPM)
+2025-02-01 15:24:51.530163,-13.155,39.253,37.904,0.428,184.917
+2025-02-01 15:24:53.540913,-11.338,-8.833,61.759,0.788,340.478
+2025-02-01 15:24:55.548939,10.267,-11.068,65.49,0.848,366.267

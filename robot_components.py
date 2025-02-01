@@ -48,7 +48,8 @@ class Robot():
         self.fans = fans
 
         # Make csv file to log data
-        self.logging_file = f"./csv_files/robot_data_log_{num_subsystems}_subsystems_{num_fans}_fans.csv"
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S.%f")
+        self.logging_file = f"./robot_data_log/{timestamp}_{num_subsystems}subsystems_{num_fans}fans.csv"
 
     def update_subsystem_temperatures(self):
         # Generate random temperatures for each subsystem
@@ -59,7 +60,7 @@ class Robot():
 
         # Adjust fan speeds based on new max temperature
         max_temp = max(subsystem.get_temperature() for subsystem in self.subsystems)
-        self.__update_fan_percent_max_rpm(max_temp)
+        self._update_fan_percent_max_rpm(max_temp)
 
         # Print and log data to console
         self.print_fan_speeds()
@@ -83,7 +84,7 @@ class Robot():
 
         write_to_csv(self.logging_file, header, row)
 
-    def __update_fan_percent_max_rpm(self, curr_temps_max):
+    def _update_fan_percent_max_rpm(self, curr_temps_max):
         fan_speed_percent = float(0)
 
         if curr_temps_max <= 25.0:

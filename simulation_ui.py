@@ -37,27 +37,49 @@ class SimulationUI:
         self.configure_button.grid(row=2, columnspan=2)
 
     def configure_robot(self):
+        # Reset input box colors to default white
+        self.subsystem_entry.config(bg="white")
+        self.fan_entry.config(bg="white")
+
+        has_error = False  # Track if any errors occur
+
+        # Validate Number of Subsystems
         try:
             self.num_subsystems = int(self.subsystem_entry.get())
-            self.num_fans = int(self.fan_entry.get())
-
-            if self.num_subsystems <= 0 or self.num_fans <= 0:
-                raise ValueError("Numbers must be non-negative.")
+            if self.num_subsystems <= 0:
+                raise ValueError
         except ValueError:
-            messagebox.showerror("Input Error", "Please enter valid numbers.")
-            return
-        
-        self.subsystem_entry.config(state='disabled')
-        self.fan_entry.config(state='disabled')
-        self.configure_button.grid_remove()         
+            self.subsystem_entry.config(bg="#ffcccc")  # Highlight invalid input
+            has_error = True
 
+        # Validate Number of Fans
+        try:
+            self.num_fans = int(self.fan_entry.get())
+            if self.num_fans <= 0:
+                raise ValueError
+        except ValueError:
+            self.fan_entry.config(bg="#ffcccc")  # Highlight invalid input
+            has_error = True
+
+        # If there's an error, show an alert and stop execution
+        if has_error:
+            messagebox.showerror("Input Error", "Please enter valid positive whole numbers.")
+            return
+
+        # Disable input fields after successful validation
+        self.subsystem_entry.config(state="disabled")
+        self.fan_entry.config(state="disabled")
+        self.configure_button.grid_remove()
+
+        # Create fan RPM input fields dynamically
         for i in range(self.num_fans):
             tk.Label(self.root, text=f"Max RPM for Fan {i + 1}:").grid(row=3 + i, column=0)
-            self.fan_rpm_entry = tk.Entry(self.root)
-            self.fan_rpm_entry.grid(row=3 + i, column=1)
-            self.fan_rpm_entries.append(self.fan_rpm_entry) 
+            fan_rpm_entry = tk.Entry(self.root)
+            fan_rpm_entry.config(bg="white")
+            fan_rpm_entry.grid(row=3 + i, column=1)
+            self.fan_rpm_entries.append(fan_rpm_entry)
 
-        # Button to process the entered RPM values
+        # Submit button to process RPM values
         self.submit_button = tk.Button(self.root, text="Submit Max RPMs", command=self.process_fan_rpms)
         self.submit_button.grid(row=3 + self.num_fans, column=1)
 
@@ -65,11 +87,17 @@ class SimulationUI:
         # Checks if fan max RPMs are valid
         invalid_found = False
         for entry in self.fan_rpm_entries:
-            if is_negative_float(entry.get()):
+            entry.config(bg="white")  
+            try:
+                rpm_value = float(entry.get())
+                if rpm_value < 0:
+                    raise ValueError
+            except ValueError:
+                entry.config(bg="#ffcccc")  
                 invalid_found = True
-                break    
+
         if invalid_found:
-            messagebox.showerror("Input Error", "Please enter valid numeric RPM values.")
+            messagebox.showerror("Input Error", "Please enter valid positive RPM values.")
             return
         
         # Once all max RPM inputs are good
@@ -127,8 +155,13 @@ class SimulationUI:
     def end_simulation(self):
         self.root.quit()
         self.root.destroy()
-        
-# if __name__ == "__main__":
-#     root = tk.Tk()
-#     app = SimulationUI(root)
-#     root.mainloop()
+
+
+# Create the main Tkinter window
+root = tk.Tk()
+
+# Create SimulationUI instance
+app = SimulationUI(root)
+
+# Runs tkinter event loop
+root.mainloop()

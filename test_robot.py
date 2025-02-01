@@ -17,20 +17,20 @@ class TestRobot(unittest.TestCase):
         self.assertEqual(self.robot.fans[2].get_max_rpm(), 207.30)
 
     def test_update_fan_rpm_float_rounding(self):
-        # Temp = 25 Celicus --> 20% of max RPM
-        self.robot._Robot__update_fan_percent_max_rpm(25.0)
+        # Temp = 25 Celsius --> 20% of max RPM
+        self.robot._update_fan_percent_max_rpm(25.0)
         self.assertEqual(self.robot.fans[0].get_speed(), 68.844)  
         self.assertEqual(self.robot.fans[1].get_speed(), 50.8) 
         self.assertEqual(self.robot.fans[2].get_speed(), 41.46)
 
-        # Temp = 25 Celicus --> linear interpolation of max RPM
-        self.robot._Robot__update_fan_percent_max_rpm(46.0)
+        # Temp = 25 Celsius --> linear interpolation of max RPM
+        self.robot._update_fan_percent_max_rpm(46.0)
         self.assertEqual(self.robot.fans[0].get_speed(), 184.503)  
         self.assertEqual(self.robot.fans[1].get_speed(), 136.144)
         self.assertEqual(self.robot.fans[2].get_speed(), 111.113)
  
-        # Temp = 85 Celicus --> 100% of max RPM
-        self.robot._Robot__update_fan_percent_max_rpm(85.0)
+        # Temp = 85 Celsius --> 100% of max RPM
+        self.robot._update_fan_percent_max_rpm(85.0)
         self.assertEqual(self.robot.fans[0].get_speed(), 344.222)
         self.assertEqual(self.robot.fans[1].get_speed(), 254)
         self.assertEqual(self.robot.fans[2].get_speed(), 207.30) 
@@ -57,14 +57,20 @@ class TestRobot(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     Robot(num_subsystems=2, num_fans=len(invalid_fans), fans=invalid_fans)
 
+    def test_fan_zero_rpm(self):
+        # Tests if setting a max fan RPM of 0 keeps output fan speed 0
+        robot = Robot(num_subsystems=1, num_fans=1, fans=[Fan(0.0)])
+        
+        # Test with 47 Celsius, see if RPM stays 0
+        robot._update_fan_percent_max_rpm(47.0)
+        self.assertEquals(robot.fans[0].get_speed(), 0.0)
+
+
 if __name__ == "__main__":
     unittest.main()
 
 # random numbers --> close simulation
-# test negative inputs
-# make the unit tests variables instead of hard-coding it
-# test invalud inputs: special characters, negatives, 0 subsystems or fans
-# don't grey out until all the fan speeds are ok
+
 # invalid input --> adds wrong number of fans
 # check if the rpm stays 0 if max rpm for that fan is 0! 
 
