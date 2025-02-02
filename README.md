@@ -33,8 +33,7 @@ Just like for step 1, invalid inputs are highlighted red:
 ![Configuring Robot](readme_imgs/window_invalid_rpms.PNG)
 4. Observe how the fan speeds change as the temperature of each subsystem is automatically updated with a random float value between -20 and 85 degrees Celsius.
 ![Simulation Running and Automatically Updating](readme_imgs/window_2.PNG)
-** Cold subsystem temperatures below 25°C are labeled blue. Hot subsystem temperatures above 75°C are labeled orange. Subsystems that fall in between this range are considered normal temperatures, which are colored black.
-
+** Cold subsystem temperatures 25°C and below are labeled blue. Hot subsystem temperatures 75°C and above are labeled orange. Subsystems that fall in between this range are considered normal temperatures, which are colored black.
 In the image above, since the highest temperature is 78.036°C, all the fans are running at 100% their max RPM. 
 5. View the output data log csv file, named with the timestamp at which the log file was created. 
 ![CSV Output](readme_imgs/window_3_log.PNG)

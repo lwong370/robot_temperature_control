@@ -163,11 +163,11 @@ class SimulationUI:
         for i, subsystem in enumerate(self.robot.subsystems):
             # Determine text color based on temperature range
             temp = subsystem.get_temperature()
-            if temp <= 25:  # Cold temperatures
+            if temp <= 25:  # Cold temperature
                 color = "blue"      
-            elif temp > 75:  # Hot temperatures
+            elif temp >= 75:  # Hot temperature
                 color = "orange"    
-            else:  # Normal range
+            else:  # Normal 
                 color = "black"     
             self.subsystem_labels[i].config(text=f"Subsystem {i + 1}: {subsystem.get_temperature():.3f} °C", fg=color)
 
