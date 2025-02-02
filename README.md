@@ -74,6 +74,6 @@ These tests help ensure that the program handles unexpected inputs and performs 
 ## Takeaways
 One of the most challenging aspects of this project was implementing a user interface. All inputs were originally read in through the console in the initial phase, but to make the application easier to use and give a more visual-aspect to the project, I decided to learn and implement Tkinter. I had multiple users run the UI simulator as a way to validate ease of use.
 
-Something that I found really valuable was the testing process after developing a prototype of my application. I tried to break my program, figuring out why it broke, fixed those issues, and wrote tests to validate if my changes worked. This gave me a more systematic level of thinking to write tests, which is beneficial in the manufacturing sphere because defects cost money and cause consequences to customers down the line. 
+Something that I found really valuable was the testing process after developing a prototype of my application. I tried to break my program, figured out why it broke, fixed those issues, wrote tests to validate if my changes worked, and repeated that process. This gave me a more systematic level of thinking to write tests, which is beneficial in the manufacturing sphere because defects cost money and cause consequences to customers down the line. 
 
 Overall, I really enjoyed working on this project and it was a good learning experience! :D
