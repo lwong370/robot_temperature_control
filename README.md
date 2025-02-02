@@ -60,6 +60,7 @@ In [**test_robot.py**](test_robot.py), I wrote unit tests using Python's built-i
 - User inputs with negative numbers → invalid input
 - User inputs with letters or special characters → invalid input
 - User input of 0 for number of fans and numer of subsystems → invalid input
+- If the max RPM of a fan was set to 0 RPM → the fan speed stays 0 RPM at all times
 
 These tests help ensure that the program handles unexpected inputs and performs as expected under different scenarios.
 
