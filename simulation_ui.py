@@ -7,7 +7,10 @@ class SimulationUI:
         self.root = root
         self.root.title("Robot Temperature Control System")
         self.scroll_frame = None
-        
+                
+        self.init_ui()
+
+    def init_ui(self):
         # Robot Attributes
         self.robot = None     
         self.num_subsystems = 0   
@@ -18,10 +21,7 @@ class SimulationUI:
         self.fan_labels = []
         self.subsystem_labels = []
         self.fan_rpm_entries = []
-        
-        self.init_ui()
 
-    def init_ui(self):
         # Get screen width and height
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
@@ -218,8 +218,17 @@ class SimulationUI:
         self.scroll_frame.bind("<Configure>", update_scroll_region)
 
     def end_simulation(self):
-        self.root.quit()
-        self.root.destroy()
+        # Clear contents of UI
+        for widget in root.winfo_children():
+            widget.destroy()
+
+        # Message box for saving data
+        messagebox.showinfo("Information", f"Data saved to {self.robot.get_log_file_name()}")
+        
+        self.init_ui()
+
+        # self.root.quit()
+        # self.root.destroy()
 
 
 # Create the main Tkinter window

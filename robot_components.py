@@ -102,5 +102,8 @@ class Robot():
         
         for fan in self.fans:
             fan.set_percent_speed(fan_speed_percent)
+    
+    def get_log_file_name(self):
+        return self.logging_file
 
  
