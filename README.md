@@ -22,12 +22,12 @@ I identified key goals that tie into the prompt objective and to a real-world so
 - The application logs system state data in a csv file created after each program run in the `robot_data_log` directory. This includes: Timestamp, temperatures of all subsystems, and RPMs of all fans at that timestamp. The use of CSV files was chosen due to their human-readable format and their ease of integration with data analysis tools. In the context of robotics, this approach is particularly useful for analyzing performance over time and evaluating how the system behaves under varying conditions.
 
 ### Built With
-- [Tkinter](https://docs.python.org/3/library/tkinter.html)
+- [Tkinter](https://docs.python.org/3/library/tkinter.html): Used to create a user interface, allowing the creation of text input boxes and labels in a pop-up display for user interaction.
 
 ### How to Use
 To run the main program:
-1. Run `python simulation_ui.py`
-2. The Tkinter UI will pop up asking for whole numbers to represent the number of subsystems and fans of the robot. Once finished, click "Configure" button. A pop-up is displayed and the input-cell with the invalid input becomes red if any inputs are invalid.
+1. Run the command: `python simulation_ui.py`
+2. The Tkinter UI will pop up prompting the user to input whole numbers to represent the number of subsystems and fans of the robot. Once finished, click "Configure" button. If any inputs are invalid, a pop-up is displayed and the input-cell with the invalid input becomes red.
 3. Set the max RPM values of each fan. Once finished, click on the "Submit Max RPMs" button.
 Just like for step 1, invalid inputs are highlighted red:
 ![Configuring Robot](readme_imgs/window_invalid_rpms.PNG)
@@ -40,7 +40,7 @@ In the image above, since the highest temperature is 78.036°C, all the fans are
 
 
 To run unit tests:
-1. Run `python test_robot.py`
+1. Run the command: `python test_robot.py`
 2. Observe results in console.
 The results of the tests can alsp be viewed in a more visual manner with Python Test Explorer.
 ![Using Python Test Explorer for Visual Studio Code](readme_imgs/window_test.PNG)
