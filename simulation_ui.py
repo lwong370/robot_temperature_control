@@ -227,9 +227,6 @@ class SimulationUI:
         
         self.init_ui()
 
-        # self.root.quit()
-        # self.root.destroy()
-
 
 # Create the main Tkinter window
 root = tk.Tk()
