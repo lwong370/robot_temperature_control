@@ -24,9 +24,15 @@ Before going into the development phase, I identified key goals that tie into pr
 To run the main program:
 1. Run `python simulation_ui.py`
 2. The Tkinter UI will pop up asking for whole numbers to represent the number of subsystems and fans to include in the system. Once finished, slick "Configure" button.
+3. Set the max RPM values of each fan. Once finished, click on the "Submit Max RPMs" button.
 ![Configuring Robot](readme_imgs/window_1.PNG)
-3. Set the max RPM values of each fan. Once finished, click on the "Start Simulation" button.
 4. Observe how the fan speeds change as the temperature of each subsystem is automatically updated with a random float value between -20 and 85 degrees Celcius.
+![Simulation Running and Automatically Updating](readme_imgs/window_2.PNG)
+5. View the output data log csv file, named with the timestamp at which the log file was created. 
+![CSV Output](readme_imgs/window_3_log.PNG)
+
+
+** Cold subsystem temperatures below 25°C are labeled blue. Hot subsystem temperatures above 75°C are labeled orange. Subsystems that fall in between this range are considered normal temperatures, which are colored black.
 
 To run unit tests:
 1. Run `python test_robot.py`
@@ -45,6 +51,8 @@ Within the [**simulation_ui.py**](simulation_ui.py), observe these functions and
 - `start_simulation()` → Sets up simulation
 - `display_simulation()` → Creates UI subsystem-state and fan-state reporting labels
 - `update_simulation()` → Loops the updates
+- `make_color_legend()` → Creates temperature colored legend in Tkinter
+- `end_simulation()` → Creates button that closes the application
 
 The main purpose of checking invalid inputs here is to have the UI Tkinter simulation react accordingly. For instance, when a user types in `-2` as input input to `Number of Subsystems`, a warning pop-up will notify them that the input is invalid.
 
