@@ -26,14 +26,11 @@ class SimulationUI:
         screen_height = self.root.winfo_screenheight()
 
         # Set the base window size to a quarter of the screen size
-        window_width = screen_width // 2  # Adjust as needed
-        window_height = screen_height // 2  # Adjust as needed
+        window_width = screen_width // 2  
+        window_height = screen_height // 2 
 
-        # Set the geometry for the root window
+        # Set root window dimensions
         self.root.geometry(f"{window_width}x{window_height}")
-
-        # Allow the window to resize dynamically based on the content
-        self.root.pack_propagate(False)
 
         # Get number of subsystems from user
         tk.Label(self.root, text="Number of Subsystems:").grid(row=0, column=0)
@@ -76,7 +73,7 @@ class SimulationUI:
 
         # If there's an error, show an alert and stop execution
         if has_error:
-            messagebox.showerror("Input Error", "Please enter valid positive whole numbers.")
+            messagebox.showerror("Input Error", "Please enter valid whole numbers.")
             return
 
         # Disable input fields after successful validation
