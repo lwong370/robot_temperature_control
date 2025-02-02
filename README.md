@@ -28,15 +28,15 @@ To run the main program:
 ![Configuring Robot](readme_imgs/window_1.PNG)
 4. Observe how the fan speeds change as the temperature of each subsystem is automatically updated with a random float value between -20 and 85 degrees Celcius.
 ![Simulation Running and Automatically Updating](readme_imgs/window_2.PNG)
+** Cold subsystem temperatures below 25°C are labeled blue. Hot subsystem temperatures above 75°C are labeled orange. Subsystems that fall in between this range are considered normal temperatures, which are colored black.
 5. View the output data log csv file, named with the timestamp at which the log file was created. 
 ![CSV Output](readme_imgs/window_3_log.PNG)
 
 
-** Cold subsystem temperatures below 25°C are labeled blue. Hot subsystem temperatures above 75°C are labeled orange. Subsystems that fall in between this range are considered normal temperatures, which are colored black.
-
 To run unit tests:
 1. Run `python test_robot.py`
-2. In console, observe test results.
+2. Observe results in console.
+![Using Python Test Explorer for Visual Studio Code](readme_imgs/window_test.PNG)
 
 ## Code Information
 ### Classes in [**robot_components.py**](robot_components.py)
