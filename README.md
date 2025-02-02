@@ -4,7 +4,7 @@
 ### Introduction
 This is a programming project that monitors a robot with multiple subsystems and cooling fans. The robot dynamically adjusts the speed of its cooling fans based on the highest detected temperature. The system is designed using Object-Oriented Programming (OOP) in Python to ensure scalability and maintainability.
 
-I identified key goals that tie into the prompt objective and to a real-world software engineer in manufacturing:
+I identified key goals that tie into the prompt objective and to a real-world software engineer's role in manufacturing:
 - Implement a clean and well-structured Object-Oriented Programming (OOP) design.
 - Show that the robot accurately works for ranges of temperatures from -20°C to 85°C, which aligns with typical operating conditions for various robotic components as referenced [here](https://www.sciencedirect.com/science/article/pii/S1359431118303867)). However, the specific temperature range for any given robot will depend on its unique application, environmental conditions, and component specifications.
 - Write tests to confirm the system's robustness and reliability. 
@@ -45,7 +45,7 @@ The simulation repeats, asking the user again for the number of subsystems and f
 To run unit tests:
 1. Run the command: `python test_robot.py`
 2. Observe results in console.
-The results of the tests can alsp be viewed in a more visual manner with Python Test Explorer.
+The results of the tests can also be viewed in a more visual manner with Python Test Explorer.
 ![Using Python Test Explorer for Visual Studio Code](readme_imgs/window_test.PNG)
 
 ## Code Information
@@ -60,11 +60,11 @@ Within the [**simulation_ui.py**](simulation_ui.py), these are the key functions
 - `configure_robot()` → Captures and validates user input 
 - `process_fan_rpms()` → Validates fan max RPM inputs, initializes fans
 - `start_simulation()` → Sets up simulation
-- `display_simulation()` → Creates UI subsystem-state and fan-state reporting labels
+- `display_simulation()` → Creates UI subsystem-state and fan-state reporting dashboard
 - `update_simulation()` → Updates and displays the new subsystems temperatures 
 - `make_color_legend()` → Creates temperature colored legend in Tkinter
 - `make_scroll_view()` → Creates scroll view for UI in case contents overflow window size
-- `end_simulation()` → Creates button that closes the application
+- `end_simulation()` → Closes the application, gives logging info, and restarts the simulation process.
 
 ### Testing
 In [**test_robot.py**](test_robot.py), I wrote unit tests using Python's built-in `unittest` framework to validate the overall system. These tests include edge cases such as:
