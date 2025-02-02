@@ -48,12 +48,14 @@ The results of the tests can alsp be viewed in a more visual manner with Python 
 
 ### Simulation in Tkinter
 Within the [**simulation_ui.py**](simulation_ui.py), observe these functions and their objectives:
-- `configure_robot()` → Captures and validates user input for number of subsystems and fans
+- `init_ui()` → Initializes Tkinter base window and sets up user-input fields for number of subsystems and fans
+- `configure_robot()` → Captures and validates user input 
 - `process_fan_rpms()` → Validates fan max RPM inputs, initializes fans
 - `start_simulation()` → Sets up simulation
 - `display_simulation()` → Creates UI subsystem-state and fan-state reporting labels
 - `update_simulation()` → Loops the updates
 - `make_color_legend()` → Creates temperature colored legend in Tkinter
+- `make_scroll_view()` → Creates scroll view for UI in case contents overflow window size
 - `end_simulation()` → Creates button that closes the application
 
 ### Testing
@@ -66,14 +68,14 @@ In [**test_robot.py**](test_robot.py), I wrote unit tests using Python's built-i
 These tests help ensure that the program handles unexpected inputs and performs as expected under different scenarios.
 
 ## Future Improvements
-1. This project focused on using the maximum temperature as the determining factor for all fan speeds. However, this approach does not account for the impact on a colder subsystem, which could be affected if the fan runs at high speeds to cool a hotter subsystem. Future improvements could incorporate mechanisms to balance cooling across all subsystems.
+1. This project focused on using the maximum temperature as the determining factor for all fan speeds. However, this does not account for the impact on subsystems meant to be kept at a colder temperature, which could be affected if the fans run at high speeds to cool a hotter subsystem. Future improvements could incorporate mechanisms to balance cooling across all subsystems.
 
-2. Introduce controlled and realistic temperature values that emulate a real-world situation rather than relying on randomly generated floating-point numbers. For instance, temperatures should gradually rise and fall to reflect natural changes in temperature in the robot. 
+2. Introduce controlled and realistic temperature values that emulate a real-world situation rather than relying on randomly generated float numbers. For example, temperatures should gradually rise and fall to reflect natural changes in temperature in the robot. 
 
 
 ## Takeaways
 One of the most challenging aspects of this project was implementing a user interface. All inputs were originally read in through the console in the initial phase, but to make the application easier to use and give a more visual-aspect to the project, I decided to learn and implement Tkinter. I had multiple users run the UI simulator as a way to validate ease of use.
 
-Something that I found really valuable was the testing process after developing a prototype of my application. I tried to break my program, figured out why it broke, fixed those issues, wrote tests to validate if my changes worked, and repeated that process. This gave me a more systematic level of thinking to write tests, which is beneficial in the manufacturing sphere because defects cost money and cause consequences to customers down the line. 
+Something that I found really valuable was the testing process after developing a prototype of my application. I tried to break my program, figured out why it broke, fixed those issues, wrote tests to validate if my changes worked, and repeated that process. This gave me a more systematic level of thinking to write tests and catch issues, which is beneficial in the manufacturing sphere because defects cost money and cause consequences to customers down the line. 
 
 Overall, I really enjoyed working on this project and it was a good learning experience! :D
