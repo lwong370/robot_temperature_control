@@ -95,7 +95,7 @@ class Robot():
 
         if curr_temps_max <= 25.0:
             fan_speed_percent = 0.2
-        elif curr_temps_max > 75.0:
+        elif curr_temps_max >= 75.0:
             fan_speed_percent = 1.0
         else:
             fan_speed_percent = 0.016 * curr_temps_max - 0.2
