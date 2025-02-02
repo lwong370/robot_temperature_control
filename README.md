@@ -10,7 +10,11 @@ I identified key goals that tie into the prompt objective and to a real-world so
 - Write tests to confirm the system's robustness and reliability. 
 
 ### System Behavior & Expectations
-- The maximum temperature of all the subsystems determine the fan speeds, where all fans are set to the same percentage of their individual max speeds.
+- The maximum temperature of all the subsystems determines the fan speeds, where all fans are set to the same percentage of their individual max speeds. 
+    - All fans run at:
+        - 20% max RPM when maximum subsystem temperature is 20°C and below
+        - 100% max RPM when maximum subsystem temperature is 75°C and above
+        - Linearly interpolated when in between 20°C and 75°C
 - Temperatures and fan speeds are reported up to the third decimal. 
 - The subsystem temperatures will be updated every 2 seconds.
 - As mentioned in motivations, our goal is to see how the fans of the robot reacts across a broad range of subsystem temperatures. Thus, the user can expect the subsystem temperatures to be random values between 
@@ -30,6 +34,8 @@ Just like for step 1, invalid inputs are highlighted red:
 4. Observe how the fan speeds change as the temperature of each subsystem is automatically updated with a random float value between -20 and 85 degrees Celsius.
 ![Simulation Running and Automatically Updating](readme_imgs/window_2.PNG)
 ** Cold subsystem temperatures below 25°C are labeled blue. Hot subsystem temperatures above 75°C are labeled orange. Subsystems that fall in between this range are considered normal temperatures, which are colored black.
+
+In the image above, since the highest temperature is 78.036°C, all the fans are running at 100% their max RPM. 
 5. View the output data log csv file, named with the timestamp at which the log file was created. 
 ![CSV Output](readme_imgs/window_3_log.PNG)
 
