@@ -6,7 +6,7 @@ This is a little programming project that develops a robot with multiple subsyst
 
 Before going into the development phase, I identified key goals that tie into prompt objective and to a real-world software engineer in manufacturing:
 - Implement a clean and well-structured Object-Oriented Programming (OOP) design.
-- Show that the robot accurately works for ranges of temperatures from -20°C to 85°C [TODO: research more realisitic values]. 
+- Show that the robot accurately works for ranges of temperatures from -20°C to 85°C (using general range of temperatures that robot components could be at—specific temperature ranges are dependent on robot application and components).
 - Design an intuitive and user-friendly interface for everyday users to easily run the application.
 - Write tests to make the system more robust and reliable. 
 
@@ -15,15 +15,16 @@ Before going into the development phase, I identified key goals that tie into pr
 - The subsystem temperatures will be updated every 2 seconds.
 - As mentioned in motivations, our goal is to see how the fans of the robot reacts across a broad range of subsystem temperatures. Thus, the user can expect the subsystem temperatures to be random values between 
 -20°C and 85°C. The subsystem temperatures are randomly generated within the range of -20°C to 85°C and are updated every 2 seconds. The corresponding fan RPMs will be adjusted accordingly, providing a real-time response to the changing temperatures.
-- System logs data in a csv file created after each program run in the robot_data_log directory. I decided to use a CSV file to log the system state, which includes: Timestamp, temperatures of all subsystems, and RPMs of all fans at that timestamp. I decided to use a CSV file because of its human-readable format, and CSV's history of being easily integrated with data analysis tools and libraries. The use of CSV files was chosen due to their human-readable format and their ease of integration with data analysis tools. In the context of robotics, this approach is particularly useful for analyzing performance over time and evaluating how the system behaves under varying conditions.
+- System logs system state data in a csv file created after each program run in the `robot_data_log` directory. This includes: Timestamp, temperatures of all subsystems, and RPMs of all fans at that timestamp. The use of CSV files was chosen due to their human-readable format and their ease of integration with data analysis tools. In the context of robotics, this approach is particularly useful for analyzing performance over time and evaluating how the system behaves under varying conditions.
 
 ### Built With
 - [Tkinter](https://docs.python.org/3/library/tkinter.html)
 
 ### How to Use
 To run the main program:
-1. Run `main.py`
+1. Run `python simulation_ui.py`
 2. The Tkinter UI will pop up asking for whole numbers to represent the number of subsystems and fans to include in the system. Once finished, slick "Configure" button.
+![Configuring Robot](readme_imgs/window_1.png)
 3. Set the max RPM values of each fan. Once finished, click on the "Start Simulation" button.
 4. Observe how the fan speeds change as the temperature of each subsystem is automatically updated with a random float value between -20 and 85 degrees Celcius.
 
