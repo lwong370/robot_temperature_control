@@ -2,7 +2,7 @@
 
 ## Overview
 ### Introduction
-This is a programming project that monitor a robot with multiple subsystems and cooling fans. The robot dynamically adjusts the speed of its cooling fans based on the highest detected temperature. The system is designed using Object-Oriented Programming (OOP) in Python to ensure scalability and maintainability.
+This is a programming project that monitors a robot with multiple subsystems and cooling fans. The robot dynamically adjusts the speed of its cooling fans based on the highest detected temperature. The system is designed using Object-Oriented Programming (OOP) in Python to ensure scalability and maintainability.
 
 I identified key goals that tie into the prompt objective and to a real-world software engineer in manufacturing:
 - Implement a clean and well-structured Object-Oriented Programming (OOP) design.
@@ -10,6 +10,7 @@ I identified key goals that tie into the prompt objective and to a real-world so
 - Write tests to confirm the system's robustness and reliability. 
 
 ### System Behavior & Expectations
+- The maximum temperature of all the subsystems determine the fan speeds, where all fans are set to the same percentage of their individual max speeds.
 - Temperatures and fan speeds are reported up to the third decimal. 
 - The subsystem temperatures will be updated every 2 seconds.
 - As mentioned in motivations, our goal is to see how the fans of the robot reacts across a broad range of subsystem temperatures. Thus, the user can expect the subsystem temperatures to be random values between 
