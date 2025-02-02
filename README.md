@@ -35,9 +35,10 @@ Just like for step 1, invalid inputs are highlighted red:
 ![Simulation Running and Automatically Updating](readme_imgs/window_2.PNG)
 ** Cold subsystem temperatures 25°C and below are labeled blue. Hot subsystem temperatures 75°C and above are labeled orange. Subsystems that fall in between this range are considered normal temperatures, which are colored black.
 In the image above, since the highest temperature is 78.036°C, all the fans are running at 100% their max RPM. 
-5. Click the "End Simulation" button when finished. A message box appears with information about where the data has been logged to.
+5. Click the "End Simulation" button when finished. A message box appears with information about where the data has been logged to. 
 ![Data log info box](readme_imgs/window_data_saved.PNG)
-6. View the output data log csv file, named with the timestamp at which the log file was created. 
+The simulation repeats, asking the user again for the number of subsystems and fans they would like to include in the system. A new CSV file is created to log data for this new system.
+6. View the output data log csv files in the `robot_data_log` directory, named with the timestamp at which the log file was created. 
 ![CSV Output](readme_imgs/window_3_log.PNG)
 
 
