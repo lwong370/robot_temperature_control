@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
 from robot_components import Robot, Fan
-from utils import is_negative_float
 
 class SimulationUI:
     def __init__(self, root):
@@ -22,6 +21,20 @@ class SimulationUI:
         self.init_ui()
 
     def init_ui(self):
+        # Get screen width and height
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+
+        # Set the base window size to a quarter of the screen size
+        window_width = screen_width // 2  # Adjust as needed
+        window_height = screen_height // 2  # Adjust as needed
+
+        # Set the geometry for the root window
+        self.root.geometry(f"{window_width}x{window_height}")
+
+        # Allow the window to resize dynamically based on the content
+        self.root.pack_propagate(False)
+
         # Get number of subsystems from user
         tk.Label(self.root, text="Number of Subsystems:").grid(row=0, column=0)
         self.subsystem_entry = tk.Entry(self.root)

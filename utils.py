@@ -2,13 +2,6 @@ import csv
 import time
 from os.path import exists
 
-def is_negative_float(value):
-    try:
-        float_value = float(value)
-        return float_value < 0 
-    except ValueError:
-        return True
-
 def write_to_csv(filename, headers, data):
     # Check if the file already exists
     file_exists = exists(filename)

@@ -69,15 +69,15 @@ class Robot():
         self._update_fan_percent_max_rpm(max_temp)
 
         # Print and log data to console
-        self.print_fan_speeds()
+        self._print_fan_speeds()
         print("------------------------------")
-        self.log_data()
+        self._log_data()
 
-    def print_fan_speeds(self):
+    def _print_fan_speeds(self):
         for i, fan in enumerate(self.fans):
             print(f"Fan {i + 1} running at {fan.get_speed():.3f} RPM")
         
-    def log_data(self):
+    def _log_data(self):
         # Get data to log
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
         subsystem_temps = [float(f"{subsystem.get_temperature():.3f}") for subsystem in self.subsystems]
