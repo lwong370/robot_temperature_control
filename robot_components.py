@@ -6,16 +6,22 @@ import math
 class Fan:
     def __init__(self, max_fan_rpm):
         self._max_rpm = max_fan_rpm
+        self.percent_rpm = 0
         self._curr_speed = 0
     
     def get_max_rpm(self):
         return self._max_rpm
     
-    def set_speed(self, new_speed):
-        self._curr_speed = new_speed
-    
+    def set_speed(self, fan_speed_percent):
+        # Set the speed, rounded to three decimal places
+        self._curr_speed = round(fan_speed_percent * math.floor(self._max_rpm * 1000) / 1000.0, 3)
+        self.percent_rpm = fan_speed_percent
+        
     def get_speed(self):
         return self._curr_speed
+
+    def get_percent_rpm(self):
+        return self.percent_rpm
         
 class Subsystem:
     def __init__(self, curr_temp):
@@ -95,9 +101,6 @@ class Robot():
             fan_speed_percent = 0.016 * curr_temps_max - 0.2
         
         for fan in self.fans:
-            max_rpm = fan.get_max_rpm()
-
-            # Set the speed, rounded to three decimal places
-            fan.set_speed(round(fan_speed_percent * math.floor(max_rpm * 1000) / 1000.0, 3))
+            fan.set_speed(fan_speed_percent)
 
  

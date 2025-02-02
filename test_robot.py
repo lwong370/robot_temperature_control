@@ -69,8 +69,3 @@ class TestRobot(unittest.TestCase):
 if __name__ == "__main__":
     unittest.main()
 
-# random numbers --> close simulation
-
-# invalid input --> adds wrong number of fans
-# check if the rpm stays 0 if max rpm for that fan is 0! 
-

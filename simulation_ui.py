@@ -105,7 +105,8 @@ class SimulationUI:
             rpm_value = float(entry.get())  
             self.fans.append(Fan(rpm_value))
             entry.config(state="disabled")
-    
+            self.submit_button.config(state="disabled")
+
         # Create robot with correct fan values
         self.robot = Robot(self.num_subsystems, self.num_fans, self.fans)
 
@@ -116,6 +117,7 @@ class SimulationUI:
     def start_simulation(self):
         self.submit_button.grid_remove()
         self.start_button.grid_remove()
+        self.make_color_legend()
         self.display_simulation()
         self.update_simulation()
 
@@ -124,14 +126,16 @@ class SimulationUI:
         start_row = 4 + len(self.fan_rpm_entries)
         for i in range(len(self.robot.subsystems)):
             label = tk.Label(self.root, text=f"Subsystem {i + 1} °C")
-            label.grid(row=start_row + i, column=0, padx=5, pady=2, sticky="w")
+            label.grid(row=(start_row+1) + i, column=0, padx=5, pady=2, sticky="w") # Add 1 to start_row to account for color legend
             self.subsystem_labels.append(label)
 
         # Create and display fan speed labels
-        fan_start_row = start_row + len(self.robot.subsystems)
+        fan_start_row = start_row + len(self.robot.subsystems) + 2
+        title_label = tk.Label(self.root, text="Fan Speeds:", font=("Arial", 12, "bold"))
+        title_label.grid(row=fan_start_row, column=0, padx=5, pady=2, sticky="w")
         for i in range(self.num_fans):
             label = tk.Label(self.root, text=f"Fan {i + 1} RPM")
-            label.grid(row=fan_start_row + i, column=0, padx=5, pady=2, sticky="w")
+            label.grid(row=(fan_start_row+1) + i, column=0, padx=5, pady=2, sticky="w")
             self.fan_labels.append(label)
 
         # Add End Simulation Button
@@ -139,18 +143,44 @@ class SimulationUI:
         self.end_button.grid(row=fan_start_row + self.num_fans, column=1)
 
     def update_simulation(self):
+        # Update subsystem temperature labels 
         self.robot.update_subsystem_temperatures()
 
-        # Update subsystem temperature labels
         for i, subsystem in enumerate(self.robot.subsystems):
-            self.subsystem_labels[i].config(text=f"Subsystem {i + 1}: {subsystem.get_temperature():.3f} °C")
+            # Determine text color based on temperature range
+            temp = subsystem.get_temperature()
+            if temp <= 25:  # Cold temperatures
+                color = "blue"      
+            elif temp > 75:  # Hot temperatures
+                color = "orange"    
+            else:  # Normal range
+                color = "black"     
+            self.subsystem_labels[i].config(text=f"Subsystem {i + 1}: {subsystem.get_temperature():.3f} °C", fg=color)
 
         # Update fan speed labels
         for i, fan in enumerate(self.robot.fans):
-            self.fan_labels[i].config(text=f"Fan {i + 1}: {fan.get_speed():.3f} RPM")
+            self.fan_labels[i].config(text=f"Fan {i + 1} running at ~{fan.get_percent_rpm()*100:.0f}% = {fan.get_speed():.3f} RPM")
 
         # Schedule next update in 2000ms (2 seconds)
         self.root.after(2000, self.update_simulation)
+
+    def make_color_legend(self):
+        # Create a frame to hold legend
+        legend_frame = tk.Frame(self.root)
+        legend_frame.grid(row=4 + self.num_fans, column=0, padx=0, pady=0)  # Adjust the grid position as needed
+
+        # Create and display legend
+        title_label = tk.Label(legend_frame, text="Subsystem Temperatures: ", font=("Arial", 12, "bold"))
+        title_label.grid(row=0, column=0, padx=5, pady=2, sticky="w")
+
+        cold_label = tk.Label(legend_frame, text="Cold", fg="blue")
+        cold_label.grid(row=0, column=2, padx=5, pady=2, sticky="w")
+
+        normal_label = tk.Label(legend_frame, text="Normal", fg="black")
+        normal_label.grid(row=0, column=4, padx=5, pady=2, sticky="w")
+
+        hot_label = tk.Label(legend_frame, text="Hot", fg="orange")
+        hot_label.grid(row=0, column=6, padx=5, pady=2, sticky="w")
 
     def end_simulation(self):
         self.root.quit()
