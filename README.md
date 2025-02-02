@@ -7,6 +7,7 @@ This is a programming project that monitors a robot with multiple subsystems and
 I identified key goals that tie into the prompt objective and to a real-world software engineer's role in manufacturing:
 - Implement a clean and well-structured Object-Oriented Programming (OOP) design.
 - Show that the robot accurately works for ranges of temperatures from -20°C to 85°C, which aligns with typical operating conditions for various robotic components as referenced [here](https://www.sciencedirect.com/science/article/pii/S1359431118303867)). However, the specific temperature range for any given robot will depend on its unique application, environmental conditions, and component specifications.
+- Design an intuitive and user-friendly interface for everyday users to easily run the application.
 - Write tests to confirm the system's robustness and reliability. 
 
 ### System Behavior & Expectations
