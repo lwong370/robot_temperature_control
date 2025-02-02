@@ -29,7 +29,7 @@ If invalid inputs are entered, a pop-up is displayed and the cell with the inval
 Just like for step 1, invalid inputs are highlighted red:
 ![Configuring Robot](readme_imgs/window_invalid_rpms.PNG)
 3. Set the max RPM values of each fan. Once finished, click on the "Submit Max RPMs" button.
-![Configuring Robot](readme_imgs/window_1.PNG)
+![Configuring Robot](readme_imgs/window_1_resized.PNG)
 4. Observe how the fan speeds change as the temperature of each subsystem is automatically updated with a random float value between -20 and 85 degrees Celcius.
 ![Simulation Running and Automatically Updating](readme_imgs/window_2.PNG)
 ** Cold subsystem temperatures below 25°C are labeled blue. Hot subsystem temperatures above 75°C are labeled orange. Subsystems that fall in between this range are considered normal temperatures, which are colored black.
