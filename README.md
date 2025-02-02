@@ -24,7 +24,7 @@ Before going into the development phase, I identified key goals that tie into pr
 To run the main program:
 1. Run `python simulation_ui.py`
 If invalid inputs are entered, a pop-up is displayed and the cell with the invalid input becomes red:
-![Configuring Robot](readme_imgs/window_invalid_input_config.PNG)
+![Configuring Robot](readme_imgs/window_invalid_input_config_.PNG)
 2. The Tkinter UI will pop up asking for whole numbers to represent the number of subsystems and fans to include in the system. Once finished, slick "Configure" button.
 Just like for step 1, invalid inputs are highlighted red:
 ![Configuring Robot](readme_imgs/window_invalid_rpms.PNG)
