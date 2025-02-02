@@ -6,6 +6,7 @@ class SimulationUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Robot Temperature Control System")
+        self.scroll_frame = None
         
         # Robot Attributes
         self.robot = None     
@@ -25,25 +26,28 @@ class SimulationUI:
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
 
-        # Set the base window size to a quarter of the screen size
+        # Set base window to a quarter of the screen size
         window_width = screen_width // 2  
         window_height = screen_height // 2 
 
         # Set root window dimensions
         self.root.geometry(f"{window_width}x{window_height}")
 
+        # Set up scroll view
+        self.make_scroll_view()
+
         # Get number of subsystems from user
-        tk.Label(self.root, text="Number of Subsystems:").grid(row=0, column=0)
-        self.subsystem_entry = tk.Entry(self.root)
+        tk.Label(self.scroll_frame, text="Number of Subsystems:").grid(row=0, column=0)
+        self.subsystem_entry = tk.Entry(self.scroll_frame)
         self.subsystem_entry.grid(row=0, column=1)
 
         # Get number of fans from user
-        tk.Label(self.root, text="Number of Fans:").grid(row=1, column=0)
-        self.fan_entry = tk.Entry(self.root)
+        tk.Label(self.scroll_frame, text="Number of Fans:").grid(row=1, column=0)
+        self.fan_entry = tk.Entry(self.scroll_frame)
         self.fan_entry.grid(row=1, column=1)
         
         # Configure button
-        self.configure_button = tk.Button(self.root, text="Configure", command=self.configure_robot)
+        self.configure_button = tk.Button(self.scroll_frame, text="Configure", command=self.configure_robot)
         self.configure_button.grid(row=2, columnspan=2)
 
     def configure_robot(self):
@@ -83,14 +87,14 @@ class SimulationUI:
 
         # Create fan RPM input fields dynamically
         for i in range(self.num_fans):
-            tk.Label(self.root, text=f"Max RPM for Fan {i + 1}:").grid(row=3 + i, column=0)
-            fan_rpm_entry = tk.Entry(self.root)
+            tk.Label(self.scroll_frame, text=f"Max RPM for Fan {i + 1}:").grid(row=3 + i, column=0)
+            fan_rpm_entry = tk.Entry(self.scroll_frame)
             fan_rpm_entry.config(bg="white")
             fan_rpm_entry.grid(row=3 + i, column=1)
             self.fan_rpm_entries.append(fan_rpm_entry)
 
         # Submit button to process RPM values
-        self.submit_button = tk.Button(self.root, text="Submit Max RPMs", command=self.process_fan_rpms)
+        self.submit_button = tk.Button(self.scroll_frame, text="Submit Max RPMs", command=self.process_fan_rpms)
         self.submit_button.grid(row=3 + self.num_fans, column=1)
 
     def process_fan_rpms(self):
@@ -121,7 +125,7 @@ class SimulationUI:
         self.robot = Robot(self.num_subsystems, self.num_fans, self.fans)
 
         # Start Simulation Button
-        self.start_button = tk.Button(self.root, text="Start Simulation", command=self.start_simulation)
+        self.start_button = tk.Button(self.scroll_frame, text="Start Simulation", command=self.start_simulation)
         self.start_button.grid(row=4 + self.num_fans, columnspan=2)
     
     def start_simulation(self):
@@ -135,21 +139,21 @@ class SimulationUI:
         # Create and display subsystem temperature labels
         start_row = 4 + len(self.fan_rpm_entries)
         for i in range(len(self.robot.subsystems)):
-            label = tk.Label(self.root, text=f"Subsystem {i + 1} °C")
+            label = tk.Label(self.scroll_frame, text=f"Subsystem {i + 1} °C")
             label.grid(row=(start_row+1) + i, column=0, padx=5, pady=2, sticky="w") # Add 1 to start_row to account for color legend
             self.subsystem_labels.append(label)
 
         # Create and display fan speed labels
         fan_start_row = start_row + len(self.robot.subsystems) + 2
-        title_label = tk.Label(self.root, text="Fan Speeds:", font=("Arial", 12, "bold"))
+        title_label = tk.Label(self.scroll_frame, text="Fan Speeds:", font=("Arial", 12, "bold"))
         title_label.grid(row=fan_start_row, column=0, padx=5, pady=2, sticky="w")
         for i in range(self.num_fans):
-            label = tk.Label(self.root, text=f"Fan {i + 1} RPM")
+            label = tk.Label(self.scroll_frame, text=f"Fan {i + 1} RPM")
             label.grid(row=(fan_start_row+1) + i, column=0, padx=5, pady=2, sticky="w")
             self.fan_labels.append(label)
 
         # Add End Simulation Button
-        self.end_button = tk.Button(self.root, text="End Simulation", command=self.end_simulation)
+        self.end_button = tk.Button(self.scroll_frame, text="End Simulation", command=self.end_simulation)
         self.end_button.grid(row=fan_start_row + self.num_fans, column=1)
 
     def update_simulation(self):
@@ -172,11 +176,11 @@ class SimulationUI:
             self.fan_labels[i].config(text=f"Fan {i + 1} running at ~{fan.get_percent_rpm()*100:.0f}% = {fan.get_speed():.3f} RPM")
 
         # Schedule next update in 2000ms (2 seconds)
-        self.root.after(2000, self.update_simulation)
+        self.scroll_frame.after(2000, self.update_simulation)
 
     def make_color_legend(self):
         # Create a frame to hold legend
-        legend_frame = tk.Frame(self.root)
+        legend_frame = tk.Frame(self.scroll_frame)
         legend_frame.grid(row=4 + self.num_fans, column=0, padx=0, pady=0)  # Adjust the grid position as needed
 
         # Create and display legend
@@ -192,6 +196,27 @@ class SimulationUI:
         hot_label = tk.Label(legend_frame, text="Hot", fg="orange")
         hot_label.grid(row=0, column=6, padx=5, pady=2, sticky="w")
 
+    def make_scroll_view(self):
+        # Make new canvas to put scroll view in
+        canvas = tk.Canvas(root)
+        canvas.pack(side="left", fill="both", expand=True)
+
+        # Create scrollbar and put in the canvas
+        scrollbar = tk.Scrollbar(root, orient="vertical", command=canvas.yview)
+        scrollbar.pack(side="right", fill="y")
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        # Create frame inside the canvas to hold content in scrollable view
+        self.scroll_frame = tk.Frame(canvas)
+        canvas.create_window((0, 0), window=self.scroll_frame, anchor="nw")
+
+        # Update scroll region when window size or content changes
+        def update_scroll_region(event):
+            canvas.configure(scrollregion=canvas.bbox("all"))
+
+        # Lets scroll region update when content inside frame changes
+        self.scroll_frame.bind("<Configure>", update_scroll_region)
+
     def end_simulation(self):
         self.root.quit()
         self.root.destroy()
@@ -203,5 +228,5 @@ root = tk.Tk()
 # Create SimulationUI instance
 app = SimulationUI(root)
 
-# Runs tkinter event loop
+# Run tkinter event loop
 root.mainloop()

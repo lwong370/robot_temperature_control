@@ -12,9 +12,9 @@ class Fan:
     def get_max_rpm(self):
         return self._max_rpm
     
-    def set_speed(self, fan_speed_percent):
+    def set_percent_speed(self, fan_speed_percent):
         # Set the speed, rounded to three decimal places
-        self._curr_speed = round(fan_speed_percent * math.floor(self._max_rpm * 1000) / 1000.0, 3)
+        self._curr_speed = round(fan_speed_percent * self._max_rpm * 1000 / 1000.0, 3)
         self.percent_rpm = fan_speed_percent
         
     def get_speed(self):
@@ -101,6 +101,6 @@ class Robot():
             fan_speed_percent = 0.016 * curr_temps_max - 0.2
         
         for fan in self.fans:
-            fan.set_speed(fan_speed_percent)
+            fan.set_percent_speed(fan_speed_percent)
 
  

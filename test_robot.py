@@ -11,7 +11,7 @@ class TestRobot(unittest.TestCase):
         self.assertEqual(robot.fans[1].get_max_rpm(), 254)
         self.assertEqual(robot.fans[2].get_max_rpm(), 207.30)
 
-    def test_update_fan_rpm_float(self):
+    def test_fan_rpm_update(self):
         robot = Robot(num_subsystems=2, num_fans=2, fans=[Fan(344.222), Fan(254), Fan(207.30)])
 
         # Temp = 25 Celsius --> 20% of max RPM
@@ -65,8 +65,19 @@ class TestRobot(unittest.TestCase):
     def test_fan_speed_update(self):
         fan = Fan(350)
         # Set fan to be 30% of RPM
-        fan.set_speed(0.3)
+        fan.set_percent_speed(0.3)
         self.assertEquals(fan.get_speed(), 105)
+
+    def test_value_rounding_fan_speed(self):
+        fan = Fan(350.9999998765)
+        # Set fan to be 70% of RPM
+        fan.set_percent_speed(0.7)
+        self.assertEquals(fan.get_speed(), 245.700)
+
+        fan2 = Fan(350.8653)
+        # Set fan to be 30% of RPM
+        fan2.set_percent_speed(0.3)
+        self.assertEquals(fan2.get_speed(), 105.260)
 
 
 
