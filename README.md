@@ -23,13 +23,11 @@ Before going into the development phase, I identified key goals that tie into pr
 ### How to Use
 To run the main program:
 1. Run `python simulation_ui.py`
-If invalid inputs are entered, a pop-up is displayed and the cell with the invalid input becomes red:
-![Configuring Robot](readme_imgs/window_invalid_input_config__.png)
+If invalid inputs are entered, a pop-up is displayed and the cell with the invalid input becomes red.
 2. The Tkinter UI will pop up asking for whole numbers to represent the number of subsystems and fans to include in the system. Once finished, slick "Configure" button.
 Just like for step 1, invalid inputs are highlighted red:
 ![Configuring Robot](readme_imgs/window_invalid_rpms.PNG)
 3. Set the max RPM values of each fan. Once finished, click on the "Submit Max RPMs" button.
-![Configuring Robot](readme_imgs/window_1_resized.PNG)
 4. Observe how the fan speeds change as the temperature of each subsystem is automatically updated with a random float value between -20 and 85 degrees Celcius.
 ![Simulation Running and Automatically Updating](readme_imgs/window_2.PNG)
 ** Cold subsystem temperatures below 25°C are labeled blue. Hot subsystem temperatures above 75°C are labeled orange. Subsystems that fall in between this range are considered normal temperatures, which are colored black.
