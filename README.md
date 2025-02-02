@@ -4,7 +4,7 @@
 ### Introduction
 This is a little programming project that develops a robot with multiple subsystems and cooling fans. The robot dynamically adjusts the speed of its cooling fans based on the highest detected temperature. The system is designed using Object-Oriented Programming (OOP) in Python to ensure scalability and maintainability.
 
-Before going into the development phase, I identified key goals:
+Before going into the development phase, I identified key goals that tie into prompt objective and to a real-world software engineer in manufacturing:
 - Implement a clean and well-structured Object-Oriented Programming (OOP) design.
 - Show that the robot accurately works for ranges of temperatures from -20°C to 85°C [TODO: research more realisitic values]. 
 - Design an intuitive and user-friendly interface for everyday users to easily run the application.
@@ -15,7 +15,7 @@ Before going into the development phase, I identified key goals:
 - The subsystem temperatures will be updated every 2 seconds.
 - As mentioned in motivations, our goal is to see how the fans of the robot reacts across a broad range of subsystem temperatures. Thus, the user can expect the subsystem temperatures to be random values between 
 -20°C and 85°C. The subsystem temperatures are randomly generated within the range of -20°C to 85°C and are updated every 2 seconds. The corresponding fan RPMs will be adjusted accordingly, providing a real-time response to the changing temperatures.
-- System logs data in a csv file created after each program run in the csv_files directory. I decided to use a CSV file to log the system state, which includes: Timestamp, temperatures of all subsystems, and RPMs of all fans at that timestamp. I decided to use a CSV file because of its human-readable format, and CSV's history of being easily integrated with data analysis tools and libraries. The use of CSV files was chosen due to their human-readable format and their ease of integration with data analysis tools. In the context of robotics, this approach is particularly useful for analyzing performance over time and evaluating how the system behaves under varying conditions.
+- System logs data in a csv file created after each program run in the robot_data_log directory. I decided to use a CSV file to log the system state, which includes: Timestamp, temperatures of all subsystems, and RPMs of all fans at that timestamp. I decided to use a CSV file because of its human-readable format, and CSV's history of being easily integrated with data analysis tools and libraries. The use of CSV files was chosen due to their human-readable format and their ease of integration with data analysis tools. In the context of robotics, this approach is particularly useful for analyzing performance over time and evaluating how the system behaves under varying conditions.
 
 ### Built With
 - [Tkinter](https://docs.python.org/3/library/tkinter.html)
@@ -56,6 +56,6 @@ In [**test_robot.py**](test_robot.py), I wrote unit tests using Python's built-i
 These tests help ensure that the program handles unexpected inputs and performs as expected under different scenarios.
 
 ## Future Improvements
-A potential enhancement would be to introduce controlled and realistic temperature values, rather than relying on randomly generated floating-point numbers across a specified range. This would involve simulating more accurate temperature behavior based on real-world scenarios, such as environmental factors or the robot's internal processes. For instance, temperatures could be dynamically adjusted based on system performance or external conditions, providing a more realistic and meaningful representation of how the robot's subsystems operate.
+1. Introduce controlled and realistic temperature values rather than relying on randomly generated floating-point numbers. This would involve simulating more accurate temperature behavior based on real-world scenarios, such as environmental factors or the robot's internal processes. For instance, temperatures could be dynamically adjusted based on system performance or external conditions, providing a more realistic and meaningful representation of how the robot's subsystems operate.
 
 Overall, I really enjoyed working on this project and it was a good learning experience! :D
