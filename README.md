@@ -24,7 +24,7 @@ Before going into the development phase, I identified key goals that tie into pr
 To run the main program:
 1. Run `python simulation_ui.py`
 2. The Tkinter UI will pop up asking for whole numbers to represent the number of subsystems and fans to include in the system. Once finished, slick "Configure" button.
-![Configuring Robot](readme_imgs/window_1.png)
+![Configuring Robot](readme_imgs/window_1.PNG)
 3. Set the max RPM values of each fan. Once finished, click on the "Start Simulation" button.
 4. Observe how the fan speeds change as the temperature of each subsystem is automatically updated with a random float value between -20 and 85 degrees Celcius.
 
